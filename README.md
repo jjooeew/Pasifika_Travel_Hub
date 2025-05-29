@@ -44,3 +44,12 @@ It includes a responsive website and mobile application that provide educational
 git clone https://github.com/your-org/pasifika-tourism-hub.git
 cd pasifika-tourism-hub
 
+2. **Navigate into each project folder and install dependencies**
+cd frontend-web
+npm install
+
+cd ../frontend-mobile
+npm install
+
+cd ../backend
+npm install
