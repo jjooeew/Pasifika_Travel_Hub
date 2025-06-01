@@ -39,8 +39,41 @@ It includes a responsive website and mobile application that provide educational
 
 ## Setup Instructions
 
-1. **Clone the Repository:**
-```bash
-git clone https://github.com/your-org/pasifika-tourism-hub.git
-cd pasifika-tourism-hub
+## Setup Instructions
 
+1. **Clone the Repository:**
+
+    ```bash
+    git clone https://github.com/your-org/pasifika-tourism-hub.git
+    cd pasifika-tourism-hub
+    ```
+
+2. **Navigate into each project folder and install dependencies:**
+
+    ```bash
+    cd frontend-web
+    npm install
+
+    cd ../frontend-mobile
+    npm install
+
+    cd ../backend
+    npm install
+    ```
+
+3. **Run the apps (example for web and backend):**
+
+    ```bash
+    # In frontend-web
+    npm start
+
+    # In backend
+    npm run dev
+    ```
+
+4. **Run mobile app using Expo:**
+
+    ```bash
+    cd frontend-mobile
+    npx expo start
+    ```
