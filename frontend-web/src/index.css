@@ -7,6 +7,7 @@
 * { box-sizing: border-box; }
 body {
   margin: 0;
+  background: transparent; 
   font-family: 'Inter', sans-serif;
   background: var(--cream);
   color: var(--text);
@@ -14,3 +15,53 @@ body {
 
 a { color: inherit; text-decoration: none; }
 ul { margin: 0; padding: 0; list-style: none; }
+
+.page-wrapper {
+  position: relative;}
+
+  .page-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  
+  width: 50%;      
+  height: 100%;
+
+  background-image: url('./assets/images/pattern1.png');
+  background-repeat: repeat;
+  background-size: contain; 
+  
+  opacity: 3;       
+  z-index: -1;         
+}
+
+.page-wrapper::after {
+  content: '';
+  position: absolute;
+
+  top: 0;
+  right: 0;
+
+  width: 200px;  /* adjust depending on image size */
+  height: 200px;
+
+  background-image: url('./assets/images/palm.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: top right;
+
+  opacity: 0.8;     /* make it semi-transparent if needed */
+  z-index: -1;      /* keep behind content */
+  pointer-events: none;  /* ensures it doesn’t block clicks */
+}
+
+
+@media (max-width: 800px) {
+  .page-wrapper::before {
+    
+    width: 0;
+    opacity: 0; 
+  }
+}
