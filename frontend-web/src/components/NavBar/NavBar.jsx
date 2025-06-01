@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
 import './NavBar.css';
+import logo from '../../assets/logo/logo.png'
 
 export default function NavBar() {
   return (
     <nav className="navbar">
       <div className="navbar__logo">
-        <img src="/assets/logo/pasifika-logo.svg" alt="Pasifika Hub logo" />
+        <img src={logo} alt="Pasifika Hub logo" />
       </div>
 
       <ul className="navbar__links">
