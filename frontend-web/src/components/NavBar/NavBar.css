@@ -1,0 +1,16 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 0 2rem;
+  height: 64px;
+  background: var(--primary);
+  color: #fff;
+}
+
+.navbar__links { display: flex; gap: 2rem; }
+
+.navbar__logo img { width: 46px; }
+
+.navbar__profile { font-size: 1.8rem; cursor: pointer; }
