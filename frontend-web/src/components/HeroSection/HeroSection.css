@@ -16,7 +16,7 @@
   z-index: -1;
 }
 
-.hero__logo   { width: 120px; }
+.hero__logo   { width: 240px; }
 .hero__tagline{
   margin-top: 1rem;
   font-family: 'Great Vibes', cursive;

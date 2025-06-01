@@ -1,0 +1,44 @@
+.footer {
+  background: #000;               
+  color: #fff;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+}
+
+.footer__row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+
+.footer__row img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.footer__row--text {
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+
+.footer__row--social a img {
+  transition: transform 0.2s;
+}
+.footer__row--social a:hover img {
+  transform: scale(1.15);
+}
+
+
+@media (max-width: 480px) {
+  .footer {
+    gap: 0.25rem;
+  }
+}
