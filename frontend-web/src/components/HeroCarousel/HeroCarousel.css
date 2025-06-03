@@ -1,0 +1,25 @@
+.hero-wrap {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  height: 180px;        
+}
+
+.hero-wrap img {
+  width: 100%;
+  object-fit: cover;
+}
+
+.hero-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,.5);
+  border: none;
+  color: #fff;
+  padding: .4rem .6rem;
+  cursor: pointer;
+}
+
+.hero-btn--left  { left:  0.5rem; }
+.hero-btn--right { right: 0.5rem; }
