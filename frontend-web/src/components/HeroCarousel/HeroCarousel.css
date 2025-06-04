@@ -1,14 +1,16 @@
 .hero-wrap {
   position: relative;
-  display: flex;
+  height: 220px;      
   overflow: hidden;
-  height: 180px;        
+  border-radius: 6px;
 }
 
 .hero-wrap img {
   width: 100%;
+  height: 100%;
   object-fit: cover;
 }
+
 
 .hero-btn {
   position: absolute;
