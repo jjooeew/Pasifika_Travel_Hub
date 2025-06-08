@@ -1,4 +1,4 @@
-// src/pages/SamoaHome.jsx
+
 import HeroCarousel from '../components/HeroCarousel/HeroCarousel';
 import SectionCard  from '../components/SectionCard/SectionCard';  
 
@@ -6,9 +6,9 @@ import hero1 from '../assets/images/SamoaCarousel1.png';
 import hero2 from '../assets/images/SamoaCarousel2.png';
 import hero3 from '../assets/images/SamoaCarousel3.png';
 
-import actImg  from '../assets/images/SamoaActivity1.png';
+import actImg  from '../assets/images/SamoaActivity3.png';
 import histImg from '../assets/images/SamoaActivity2.png';
-import langImg from '../assets/images/SamoaActivity3.png';
+import langImg from '../assets/images/SamoaActivity1.jpg';
 
 import '../styles/CountryPage.css';   
 export default function SamoaHome() {
