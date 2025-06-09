@@ -2,6 +2,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import NavBar    from './components/NavBar/NavBar';
 import LandingPage from './pages/LandingPage'; 
+import ProfilePage from './pages/ProfilePage';
+import ThingstodoPage from './pages/ThingstodoPage';
+import LanguagePage from './pages/LanguagePage';
+import KidsPage from './pages/KidsPage';
 import Footer from './components/Footer/Footer';
 
 
@@ -14,10 +18,11 @@ function App() {
       <div className="page-wrapper">
         <Routes>
         <Route path="/" element={<LandingPage/>} />
-        <Route path="/things-to-do" element={<h1>Things to do</h1>} />
-        <Route path="/language"     element={<h1>Language</h1>} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/things-to-do" element={<ThingstodoPage />} />
+        <Route path="/language"     element={<LanguagePage />} />
         <Route path="/history"      element={<h1>History</h1>} />
-        <Route path="/kids"         element={<h1>Kids</h1>} />
+        <Route path="/kids"         element={<KidsPage />} />
           
         </Routes>
       </div>

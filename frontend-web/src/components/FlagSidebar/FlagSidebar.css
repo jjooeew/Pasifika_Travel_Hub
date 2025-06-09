@@ -1,0 +1,36 @@
+.sidebar {
+  width: 80px;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 30px;
+  gap: 40px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  margin-left: 100px;
+}
+
+.flag-img {
+  width: 80px;
+  height: auto;
+  margin-bottom: 20px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.flag-img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 5px #888;
+}
+
+.flag-img.active {
+  outline: 3px solid #2E8CDA;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 80px;
+}
