@@ -8,6 +8,12 @@ import LanguagePage from './pages/LanguagePage';
 import KidsPage from './pages/KidsPage';
 import Footer from './components/Footer/Footer';
 
+import SamoaHome from './pages/SamoaHome';
+import TongaHome from './pages/TongaHome';
+import FijiHome from './pages/FijiHome';
+
+
+
 
 function App() {
   return (
@@ -23,6 +29,9 @@ function App() {
         <Route path="/language"     element={<LanguagePage />} />
         <Route path="/history"      element={<h1>History</h1>} />
         <Route path="/kids"         element={<KidsPage />} />
+        <Route path="/samoa"         element={<SamoaHome />} />
+        <Route path="/fiji"         element={<FijiHome />} />
+        <Route path="/tonga"         element={<TongaHome />} />
           
         </Routes>
       </div>
