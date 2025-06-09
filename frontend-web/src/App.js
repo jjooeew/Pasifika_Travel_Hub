@@ -3,7 +3,12 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import NavBar    from './components/NavBar/NavBar';
 import LandingPage from './pages/LandingPage'; 
 import Footer from './components/Footer/Footer';
+
+import SamoaHome from './pages/SamoaHome';
+import TongaHome from './pages/TongaHome';
+import FijiHome from './pages/FijiHome';
 import ProfilePage from './pages/ProfilePage';
+
 
 
 function App() {
@@ -20,6 +25,9 @@ function App() {
         <Route path="/language"     element={<h1>Language</h1>} />
         <Route path="/history"      element={<h1>History</h1>} />
         <Route path="/kids"         element={<h1>Kids</h1>} />
+        <Route path="/samoa"         element={<SamoaHome />} />
+        <Route path="/fiji"         element={<FijiHome />} />
+        <Route path="/tonga"         element={<TongaHome />} />
           
         </Routes>
       </div>
