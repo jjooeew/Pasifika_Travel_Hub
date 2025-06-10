@@ -19,7 +19,7 @@ export default function SamoaHome() {
       <HeroCarousel images={[hero1, hero2, hero3]} alt="Beautiful Samoa scenery" />
 
       <div className="section-grid">
-        <SectionCard title="Activities" image={actImg}  link="/samoa/activities" />
+        <SectionCard title="Activities" image={actImg}  link="/samoa/things-to-do" />
         <SectionCard title="History"    image={histImg} link="/samoa/history"    />
         <SectionCard title="Language"   image={langImg} link="/samoa/language"   />
       </div>

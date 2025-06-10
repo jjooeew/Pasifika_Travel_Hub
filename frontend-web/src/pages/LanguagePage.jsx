@@ -1,56 +1,82 @@
-import React, { useState } from 'react';
-import FlagSidebar from '../components/FlagSidebar/FlagSidebar';
-import TextToSpeech from '../components/TextToSpeech/TextToSpeech';
+
+import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import FlagSidebar   from '../components/FlagSidebar/FlagSidebar';
+import TextToSpeech  from '../components/TextToSpeech/TextToSpeech';
 import './LanguagePage.css';
 
+
 import samoaFlag from '../assets/flags/sa.png';
-import fijiFlag from '../assets/flags/fi.png';
+import fijiFlag  from '../assets/flags/fi.png';
 import tongaFlag from '../assets/flags/to.png';
- 
+
 
 const phraseData = {
-  Samoa: [
-    'Talofa lava', 
-    'O a mai oe?', 
-    'Manuia le aso', 
-    'Fa’afetai tele'
+  samoa: [
+    'Talofa lava',
+    'O a mai oe?',
+    'Manuia le aso',
+    'Fa’afetai tele',
   ],
-  Fiji: [
-    'Bula', 
-    'Vakacava tiko?', 
-    'Moce mada', 
-    'Vinaka vaka levu'
+  fiji: [
+    'Bula',
+    'Vakacava tiko?',
+    'Moce mada',
+    'Vinaka vaka levu',
   ],
-  Tonga: [
-    'Mālō e lelei', 
-    'Fēfē hake?', 
-    'Nofo ā', 
-    'Mālō aupito'
-  ]
+  tonga: [
+    'Mālō e lelei',
+    'Fēfē hake?',
+    'Nofo ā',
+    'Mālō aupito',
+  ],
 };
 
-const LanguagePage = () => {
-  const [selectedCountry, setSelectedCountry] = useState('Samoa');
 
-  const countries = [
-    { name: 'Samoa', flag: samoaFlag },
-    { name: 'Fiji', flag: fijiFlag },
-    { name: 'Tonga', flag: tongaFlag },
-  ];
+const countries = [
+  { slug: 'samoa', name: 'Samoa', flag: samoaFlag },
+  { slug: 'fiji',  name: 'Fiji',  flag: fijiFlag  },
+  { slug: 'tonga', name: 'Tonga', flag: tongaFlag },
+];
+
+export default function LanguagePage() {
+  const { country: urlSlug } = useParams(); 
+  const navigate = useNavigate();
+
+  
+  const initialSlug = phraseData[urlSlug] ? urlSlug : 'samoa';
+  const [selectedSlug, setSelectedSlug] = useState(initialSlug);
+
+  
+  useEffect(() => {
+    if (urlSlug !== selectedSlug) {
+      if (phraseData[urlSlug]) setSelectedSlug(urlSlug);
+      else navigate('/samoa/language', { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [urlSlug]);
+
+
+  const handleSelect = (slug) => {
+    navigate(`/${slug}/language`);
+  };
+
+ 
+  const heading = countries.find(c => c.slug === selectedSlug)?.name ?? '';
 
   return (
     <div className="language-page">
       <FlagSidebar
         countries={countries}
-        selectedCountry={selectedCountry}
-        onSelect={setSelectedCountry}
+        selectedCountry={selectedSlug}
+        onSelect={handleSelect}
       />
 
       <div className="phrases-card">
-        <h2>Useful phrases</h2>
+        <h2>{heading} - Useful phrases</h2>
         <ul>
-          {phraseData[selectedCountry].map((phrase, index) => (
-            <li key={index} className="phrase-line">
+          {phraseData[selectedSlug].map((phrase, i) => (
+            <li key={i} className="phrase-line">
               <span>{phrase}</span>
               <TextToSpeech text={phrase} lang="en-US" />
             </li>
@@ -59,6 +85,4 @@ const LanguagePage = () => {
       </div>
     </div>
   );
-};
-
-export default LanguagePage;
+}

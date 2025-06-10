@@ -26,7 +26,9 @@ function App() {
         <Route path="/" element={<LandingPage/>} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/things-to-do" element={<ThingstodoPage />} />
-        <Route path="/language"     element={<LanguagePage />} />
+        <Route path="/:country/things-to-do" element={<ThingstodoPage />} />
+        <Route path="/language" element={<LanguagePage />} />
+        <Route path="/:country/language"     element={<LanguagePage />} />
         <Route path="/history"      element={<h1>History</h1>} />
         <Route path="/kids"         element={<KidsPage />} />
         <Route path="/samoa"         element={<SamoaHome />} />

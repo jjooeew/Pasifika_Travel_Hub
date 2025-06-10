@@ -19,7 +19,7 @@ export default function TongaHome() {
       <HeroCarousel images={[hero1, hero2, hero3]} alt="Beautiful Tonga scenery" />
 
       <div className="section-grid">
-        <SectionCard title="Activities" image={actImg}  link="/tonga/activities" />
+        <SectionCard title="Activities" image={actImg}  link="/tonga/things-to-do" />
         <SectionCard title="History"    image={histImg} link="/tonga/history"    />
         <SectionCard title="Language"   image={langImg} link="/tonga/language"   />
       </div>

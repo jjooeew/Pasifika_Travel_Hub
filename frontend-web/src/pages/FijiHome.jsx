@@ -18,7 +18,7 @@ export default function FijiHome() {
       <HeroCarousel images={[hero1, hero2, hero3]} alt="Beautiful Fijian scenery" />
 
       <div className="section-grid">
-        <SectionCard title="Activities" image={actImg}  link="/fiji/activities" />
+        <SectionCard title="Activities" image={actImg}  link="/fiji/things-to-do" />
         <SectionCard title="History"    image={histImg} link="/fiji/history"    />
         <SectionCard title="Language"   image={langImg} link="/fiji/language"   />
       </div>
