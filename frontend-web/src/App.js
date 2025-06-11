@@ -7,6 +7,7 @@ import ThingstodoPage from './pages/ThingstodoPage';
 import LanguagePage from './pages/LanguagePage';
 import KidsPage from './pages/KidsPage';
 import Footer from './components/Footer/Footer';
+import HistoryPage from './pages/HistoryPage';
 
 import SamoaHome from './pages/SamoaHome';
 import TongaHome from './pages/TongaHome';
