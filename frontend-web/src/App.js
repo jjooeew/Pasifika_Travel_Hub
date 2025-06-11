@@ -29,7 +29,8 @@ function App() {
         <Route path="/:country/things-to-do" element={<ThingstodoPage />} />
         <Route path="/language" element={<LanguagePage />} />
         <Route path="/:country/language"     element={<LanguagePage />} />
-        <Route path="/history"      element={<h1>History</h1>} />
+        <Route path="/history" element={<HistoryPage />} />
+        <Route path="/:country/history" element={<HistoryPage />} />
         <Route path="/kids"         element={<KidsPage />} />
         <Route path="/samoa"         element={<SamoaHome />} />
         <Route path="/fiji"         element={<FijiHome />} />
