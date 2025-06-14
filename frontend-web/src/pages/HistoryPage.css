@@ -6,8 +6,8 @@
 
 .history-hero-banner {
   width: 100%;
-  aspect-ratio: 16 / 5;      /* 16 × 5 or tweak to taste  */
-  max-height: 450px;         /* safety: never taller than 450 px */
+  aspect-ratio: 16 / 5;      
+  max-height: 450px;       
   object-fit: cover;
   object-position: center;
 }
@@ -69,17 +69,32 @@
   box-shadow: 0 4px 10px rgba(0,0,0,.08);
 }
 
+.history-photo {
+  background: none;         
+  box-shadow: none;          
+  padding: 0;   
+             
+}
+
 .history-timeline h3,
 .history-facts h3 {
   font-size: 1.4rem;
   margin-top: 0;
+  list-style-type: disc !important;     
+  padding-left: 1.25rem;     
+}
+
+.history-facts li {
+   list-style-type: disc !important;
+  margin-bottom: .6rem;      
 }
 
 .history-photo img {
   width: 100%;
-  height: 260px;
+  height: 400px;
   object-fit: cover;
   border-radius: 6px;
+  
 }
 
 
