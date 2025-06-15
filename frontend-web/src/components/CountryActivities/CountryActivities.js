@@ -1,14 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './CountryActivities.css';
 
-const CountryActivities = ({ countryName, description, activities }) => {
-  const [favorites, setFavorites] = useState(Array(activities.length).fill(false));
+export default function CountryActivities({ countryName, description, activities }) {
+ 
+  const [favorites, setFavorites] = useState([]);
 
-  const toggleFavorite = (index) => {
-    const updated = [...favorites];
-    updated[index] = !updated[index];
-    setFavorites(updated);
+  useEffect(() => {
+    setFavorites(activities.map(a => a.liked ?? false));
+  }, [activities]);
+
+ 
+  const toggleFavorite = index => {
+    setFavorites(prev => {
+      const updated = [...prev];
+      updated[index] = !updated[index];
+      return updated;
+    });
   };
+
 
   return (
     <div className="country-section">
@@ -18,20 +27,29 @@ const CountryActivities = ({ countryName, description, activities }) => {
       </div>
 
       <div className="cards-container">
-        {activities.map((activity, index) => (
-          <div className="card" key={index}>
-            <img src={activity.img} alt={activity.title} />
-            <h2 className="card-title">{activity.title}</h2>
-            <p className="card-text">{activity.text}</p>
-            <div className="favorite-icon" onClick={() => toggleFavorite(index)}>
-              {favorites[index] ? '❤️' : '♡'}
-            </div>
+        {activities.map((a, i) => (
+          <div className="card" key={i}>
+            {a.imageURL && (
+              <img
+                src={a.imageURL}
+                alt={a.title}
+                className="card-img"
+              />
+            )}
+
+            <h2 className="card-title">{a.title}</h2>
+            <p className="card-text">{a.description}</p>
+
+            <button
+              className="favorite-icon"
+              onClick={() => toggleFavorite(i)}
+              aria-label={favorites[i] ? 'Un-favourite' : 'Favourite'}
+            >
+              {favorites[i] ? '❤️' : '♡'}
+            </button>
           </div>
         ))}
       </div>
     </div>
   );
-};
-
-export default CountryActivities;
-
+}
