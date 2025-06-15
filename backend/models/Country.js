@@ -16,7 +16,7 @@ const countrySchema = new mongoose.Schema(
           title: String,
           description: String,
           imageURL: String,
-          liked: { type: Boolean, default: false }.
+          liked: { type: Boolean, default: false },
         },
       ],
       // food: [String],
