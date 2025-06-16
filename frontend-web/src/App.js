@@ -7,10 +7,11 @@ import ThingstodoPage from './pages/ThingstodoPage';
 import LanguagePage from './pages/LanguagePage';
 import KidsPage from './pages/KidsPage';
 import Footer from './components/Footer/Footer';
-
+import HistoryPage from './pages/HistoryPage';
 import SamoaHome from './pages/SamoaHome';
 import TongaHome from './pages/TongaHome';
 import FijiHome from './pages/FijiHome';
+import AddCountry from './pages/AddCountry';
 
 
 
@@ -29,11 +30,13 @@ function App() {
         <Route path="/:country/things-to-do" element={<ThingstodoPage />} />
         <Route path="/language" element={<LanguagePage />} />
         <Route path="/:country/language"     element={<LanguagePage />} />
-        <Route path="/history"      element={<h1>History</h1>} />
+        <Route path="/history" element={<HistoryPage />} />
+        <Route path="/:country/history" element={<HistoryPage />} />
         <Route path="/kids"         element={<KidsPage />} />
         <Route path="/samoa"         element={<SamoaHome />} />
         <Route path="/fiji"         element={<FijiHome />} />
         <Route path="/tonga"         element={<TongaHome />} />
+        <Route path="/admin/add-country"  element={<AddCountry />} />
           
         </Routes>
       </div>
