@@ -12,6 +12,7 @@ import SamoaHome from './pages/SamoaHome';
 import TongaHome from './pages/TongaHome';
 import FijiHome from './pages/FijiHome';
 import AddCountry from './pages/AddCountry';
+import AddActivity from './pages/AddActivity';
 
 
 
@@ -37,6 +38,7 @@ function App() {
         <Route path="/fiji"         element={<FijiHome />} />
         <Route path="/tonga"         element={<TongaHome />} />
         <Route path="/admin/add-country"  element={<AddCountry />} />
+        <Route path="/admin/add-activity"  element={<AddActivity />} />
           
         </Routes>
       </div>

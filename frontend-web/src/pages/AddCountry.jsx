@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import styles from "./AddCountry.css";
+import  "./AddCountry.css";
 
 export default function AddCountry() {
   const [formData, setFormData] = useState({
