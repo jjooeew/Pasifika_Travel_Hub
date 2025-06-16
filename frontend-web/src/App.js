@@ -8,10 +8,10 @@ import LanguagePage from './pages/LanguagePage';
 import KidsPage from './pages/KidsPage';
 import Footer from './components/Footer/Footer';
 import HistoryPage from './pages/HistoryPage';
-
 import SamoaHome from './pages/SamoaHome';
 import TongaHome from './pages/TongaHome';
 import FijiHome from './pages/FijiHome';
+import AddCountry from './pages/AddCountry';
 
 
 
@@ -36,6 +36,7 @@ function App() {
         <Route path="/samoa"         element={<SamoaHome />} />
         <Route path="/fiji"         element={<FijiHome />} />
         <Route path="/tonga"         element={<TongaHome />} />
+        <Route path="/admin/add-country"  element={<AddCountry />} />
           
         </Routes>
       </div>

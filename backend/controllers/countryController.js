@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const Country = require("../models/Country");
 
 // get all countries
 const getAllCountries = async (req, res) => {
@@ -86,5 +87,5 @@ module.exports = {
   getCountryById,
   getCountryBySlug,
   updateCountryById,
-  deleteCountryById
+  deleteCountryById,
 };
