@@ -35,7 +35,32 @@
   }
 }
 
+.dropdownMenu {
+  position: absolute;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  font-size: 1.2rem;
+  background-color: #0B5968;
+  height: 100px;
+  width: 120px;
+  z-index: 1000;
+}
 
+.dropdownMenu a {
+  padding: 15px;
+  align-self: flex-start;
+  width: 100%;
+}
+
+.dropdownMenu a:hover {
+  background-color: #08434f;
+}
+
+.signIn {
+  border-bottom: solid black 1px;
+}
 
 .navbar__logo img { width: 64px;height: auto;}
 
