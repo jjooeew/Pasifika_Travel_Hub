@@ -38,7 +38,7 @@ function App() {
         <Route path="/fiji"         element={<FijiHome />} />
         <Route path="/tonga"         element={<TongaHome />} />
         <Route path="/admin/add-country"  element={<AddCountry />} />
-        <Route path="/admin/add-activity"  element={<AddActivity />} />
+        <Route path="/admin/add-activity/:slug" element={<AddActivity />} />
           
         </Routes>
       </div>

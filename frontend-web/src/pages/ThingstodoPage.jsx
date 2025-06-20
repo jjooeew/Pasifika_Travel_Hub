@@ -86,15 +86,25 @@ export default function ThingsToDoPage() {
       />
 
       <div className="main-content">
-        {loading
-          ? <p>Loading activities…</p>            
-          : <CountryActivities
-              countryName={activeCountry.name}
-              description={activeCountry.description}
-              activities={activities}            
-            />
-        }
-      </div>
+  {/* admin-only button */}
+  <button
+    className="add-btn"
+    onClick={() => navigate(`/admin/add-activity/${selectedSlug}`)}
+    style={{ float: "right", marginBottom: "1rem" }}
+  >
+    + Add Activity
+  </button>
+
+  {loading ? (
+    <p>Loading activities…</p>
+  ) : (
+    <CountryActivities
+      countryName={activeCountry.name}
+      description={activeCountry.description}
+      activities={activities}
+    />
+  )}
+</div>
     </div>
   );
 }

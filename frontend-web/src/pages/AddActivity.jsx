@@ -1,16 +1,23 @@
-import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import "./AddCountry.css";      
 
 export default function AddActivity() {
 
+  const { slug } = useParams();   
   const [formData, setFormData] = useState({
+    
     slug: "",      
     title: "",
     description: "",
     imageURL: "",
     liked: false
   });
+
+   useEffect(() => {
+    setFormData(prev => ({ ...prev, slug }));
+  }, [slug]);
 
   const handleChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -43,7 +50,7 @@ export default function AddActivity() {
           name="slug"
           value={formData.slug}
           onChange={handleChange}
-          placeholder="Country slug (e.g. samoa)"
+          placeholder="Country"
           required
         />
         <input
