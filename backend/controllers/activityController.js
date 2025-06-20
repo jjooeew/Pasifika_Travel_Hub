@@ -2,7 +2,7 @@ console.log("ACTIVITY CTRL loaded");
 
 const Country = require("../models/Country");
 
-// POST /api/countries/slug/:slug/activities
+
 exports.addActivity = async (req, res) => {
   try {
     const country = await Country.findOne({ slug: req.params.slug });
@@ -17,7 +17,7 @@ exports.addActivity = async (req, res) => {
   }
 };
 
-//  GET all activities for one country
+
 exports.getActivities = async (req, res) => {
   try {
     const country = await Country.findOne(
@@ -27,6 +27,23 @@ exports.getActivities = async (req, res) => {
     if (!country) return res.status(404).json({ error: "Country not found" });
 
     res.json(country.exploration.activities);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.deleteActivity = async (req, res) => {
+  try {
+    const { slug, activityId } = req.params;
+
+    const country = await Country.findOneAndUpdate(
+      { slug },
+      { $pull: { "exploration.activities": { _id: activityId } } },
+      { new: true }
+    );
+    if (!country) return res.status(404).json({ error: "Country not found" });
+
+    res.json({ message: "Activity deleted" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
