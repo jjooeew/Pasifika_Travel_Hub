@@ -5,6 +5,8 @@ import { useState, useEffect } from 'react';
 import FlagSidebar        from '../components/FlagSidebar/FlagSidebar';
 import CountryActivities  from '../components/CountryActivities/CountryActivities';
 import { getCountry } from '../services/api';
+import './ThingstodoPage.css'
+import { deleteActivity } from '../services/api';
 
 import samoaFlag from '../assets/flags/sa.png';
 import fijiFlag  from '../assets/flags/fi.png';
@@ -40,6 +42,7 @@ const COUNTRIES = [
 export default function ThingsToDoPage() {
   const { country: urlSlug } = useParams();  
   const navigate             = useNavigate();
+  const [editMode, setEditMode] = useState(false);
 
   
   const initialSlug = COUNTRIES.some(c => c.slug === urlSlug) ? urlSlug : 'samoa';
@@ -47,6 +50,18 @@ export default function ThingsToDoPage() {
 
   const [activities, setActivities] = useState([]); 
   const [loading, setLoading]       = useState(true);
+
+  const handleDelete = async (activityId) => {
+  try {
+    await deleteActivity(selectedSlug, activityId);
+
+    
+    setActivities(prev => prev.filter(a => a._id !== activityId));
+  } catch (err) {
+    console.error('Failed to delete activity:', err);
+    alert('Sorry, something went wrong.');
+  }
+};
 
 
   
@@ -85,26 +100,43 @@ export default function ThingsToDoPage() {
         onSelect={handleSelect}
       />
 
-      <div className="main-content">
-  {/* admin-only button */}
-  <button
-    className="add-btn"
-    onClick={() => navigate(`/admin/add-activity/${selectedSlug}`)}
-    style={{ float: "right", marginBottom: "1rem" }}
-  >
-    + Add Activity
-  </button>
-
+   <div className="main-content">
   {loading ? (
     <p>Loading activities…</p>
   ) : (
-    <CountryActivities
-      countryName={activeCountry.name}
-      description={activeCountry.description}
-      activities={activities}
-    />
+    <>
+      
+      <div className="country-header">
+        <h1>{activeCountry.name}</h1>
+        <p>{activeCountry.description}</p>
+
+        <div className="btn-row">
+        <button
+          className="admin-btn"                  
+          onClick={() => navigate(`/admin/add-activity/${selectedSlug}`)}
+        >
+          + Add
+        </button>
+
+        <button
+          className="admin-btn"                      
+          onClick={() => setEditMode(!editMode)}
+        >
+          {editMode ? "Done" : "Delete"}
+        </button>
+      </div>
+      </div>   
+
+      
+      <CountryActivities
+        activities={activities}
+        editMode={editMode}      
+        onDelete={handleDelete}   
+      />
+    </>
   )}
 </div>
+
     </div>
   );
 }
