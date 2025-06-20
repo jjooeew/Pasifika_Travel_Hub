@@ -1,15 +1,17 @@
-const router = require("express").Router({ mergeParams: true });   // ✅ Express router
+const router = require("express").Router({ mergeParams: true });
+
 const {
   addActivity,
-  getActivities
+  getActivities,
+  deleteActivity          // ⬅️ add this
 } = require("../controllers/activityController");
 
-// 🕵️‍♂️ DEBUG: log the types we just imported
-console.log("addActivity:", typeof addActivity, "getActivities:", typeof getActivities);
-
-// base path = /api/countries/slug/:slug/activities
+// base: /api/countries/slug/:slug/activities
 router.route("/")
-  .get(getActivities)   // optional
+  .get(getActivities)
   .post(addActivity);
+
+router.route("/:activityId")        // DELETE /activities/:id
+  .delete(deleteActivity);
 
 module.exports = router;
