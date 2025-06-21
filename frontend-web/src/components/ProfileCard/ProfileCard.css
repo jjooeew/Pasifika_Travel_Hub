@@ -57,3 +57,37 @@ input[type="file"] {
 .profile-card button:hover:not(:disabled) {
   opacity: 0.85;
 }
+.value.editable {
+  cursor: pointer;
+  transition: color .15s;
+}
+.value.editable:hover { color: #005866; }
+
+
+.username-input {
+  font: inherit;
+  color: #555;
+  border: none;
+  border-bottom: 1px solid #aaa;
+  background: transparent;
+  width: 100%;
+}
+.username-input:focus {
+  outline: none;
+  border-bottom-color: #005866;
+}
+
+.info-table .row {
+  margin: 2rem 0;      
+  display: flex;
+  
+}
+
+
+.card-heading {
+  font-family: 'Great Vibes', cursive;  
+  font-size: 2.2rem;                   
+  color: var(--primary);                
+  margin: 0.25rem 0 1.25rem;           
+  font-weight: 400;                   
+}
