@@ -1,24 +1,30 @@
-import { createContext, useState, useEffect, useContext } from "react";
-import { AuthContext } from "./AuthContext";          // <<– existing file
-import { db } from "../lib/firebase";
+import { createContext, useState, useEffect } from "react";
+import { useAuth } from "./AuthContext";      // ✅ use the hook directly
+import { db } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
 
-export const UserContext = createContext();
+export const UserContext = createContext(null);
 
 export function UserProvider({ children }) {
-  const { currentUser } = useContext(AuthContext);   // <- get UID & email
+  /* 1️⃣  Get the Firebase user from AuthProvider */
+  const { currentUser } = useAuth();          // ✅ NO useContext() here
+
   const [user, setUser] = useState(null);
 
+  /* 2️⃣  Pull extra profile data (or reset) whenever auth changes */
   useEffect(() => {
-    if (!currentUser) { setUser(null); return; }
+    if (!currentUser) {
+      setUser(null);
+      return;
+    }
 
     (async () => {
       const snap = await getDoc(doc(db, "users", currentUser.uid));
       setUser({
         uid: currentUser.uid,
         email: currentUser.email,
-        avatarUrl: currentUser.photoURL,   // set by your upload
-        ...snap.data(),                    // username, displayName …
+        avatarUrl: currentUser.photoURL,      // uploaded avatar
+        ...snap.data(),                       // username, displayName, etc.
       });
     })();
   }, [currentUser]);

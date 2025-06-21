@@ -1,15 +1,16 @@
 .profile-card {
-  width: 320px;
+  width: 420px;               /* wider */
+  min-height: 420px;          /* “longer” */
   padding: 2rem;
   border-radius: 12px;
-  background: #e8d7af;              /* same beige as your mock-up */
+  background: #e8d7af;
   box-shadow: 0 4px 12px rgba(0,0,0,.15);
   text-align: center;
 }
 
 .avatar-lg {
-  width: 120px;
-  height: 120px;
+  width: 140px;               /* was 120 × 120 */
+  height: 140px;
   border-radius: 50%;
   object-fit: cover;
   margin-bottom: 1rem;

@@ -1,8 +1,8 @@
 import React, {
-  useState,
-  useEffect,
   createContext,
   useContext,
+  useEffect,
+  useState,
 } from "react";
 import { auth } from "../../firebase";
 import {
@@ -10,55 +10,57 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
-  getIdTokenResult,                 // ★ NEW
+  getIdTokenResult,
 } from "firebase/auth";
 
-const AuthContext = createContext();
+/* --------------------------------------------------- */
+/* 1️⃣  RAW CONTEXT – export it in case anyone needs it */
+export const AuthContext = createContext(null);
+/* --------------------------------------------------- */
 
+/* 2️⃣  Small helper hook (what the rest of the app calls) */
 export function useAuth() {
   return useContext(AuthContext);
 }
 
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(false);           // ★ NEW
-  // const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin]         = useState(false);
 
-  /* ────────────────────────────  auth helpers  ─────────────────────────── */
+  /* ─────────── auth helpers ─────────── */
 
   const signUp = (email, password) =>
     createUserWithEmailAndPassword(auth, email, password);
 
-  const login = (email, password) =>
+  const login  = (email, password) =>
     signInWithEmailAndPassword(auth, email, password);
 
   const logout = () => signOut(auth);
 
-  /* ───────────────────────  watch login / logout  ─────────────────────── */
+  /* ─────────── watch login / logout ─────────── */
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
+
       if (!user) {
-        setIsAdmin(false);                                 // ★ NEW
+        setIsAdmin(false);
         return;
       }
 
-      // pull down custom claims (forceRefresh true = always up-to-date)
-      const { claims } = await getIdTokenResult(user, true); // ★ NEW
-      setIsAdmin(claims.admin === true);                   // ★ NEW
-
-      // setLoading(false);
+      /* pull custom claims once per login */
+      const { claims } = await getIdTokenResult(user, true);
+      setIsAdmin(claims.admin === true);
     });
 
     return () => unsubscribe();
   }, []);
 
-  /* ─────────────────────────────  export  ─────────────────────────────── */
+  /* ─────────── provider value ─────────── */
 
   const value = {
     currentUser,
-    isAdmin,                                               // ★ NEW
+    isAdmin,
     signUp,
     login,
     logout,

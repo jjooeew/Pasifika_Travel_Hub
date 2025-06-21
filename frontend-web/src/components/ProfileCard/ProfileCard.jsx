@@ -1,10 +1,11 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../context/UserContext";
-import { auth, db, storage } from "../lib/firebase";
+import { auth, db, storage } from "../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
 import { updateProfile } from "firebase/auth";
 import "./ProfileCard.css";
+import placeholder from "../../assets/images/avatar-placeholder.png";
 
 export default function ProfileCard() {
   const { user, setUser } = useContext(UserContext);
@@ -18,24 +19,24 @@ export default function ProfileCard() {
     setSaving(true);
 
     try {
-      // 1️⃣  push to Storage (avatars/{uid})
+      
       const storageRef = ref(storage, `avatars/${user.uid}`);
       await uploadBytes(storageRef, file);
 
-      // 2️⃣  grab a public URL
+      
       const url = await getDownloadURL(storageRef);
 
-      // 3️⃣  update Firebase Auth profile (handy everywhere)
+      
       await updateProfile(auth.currentUser, { photoURL: url });
 
-      // 4️⃣  persist in Firestore users collection
+      
       await setDoc(
         doc(db, "users", user.uid),
         { avatarUrl: url },
         { merge: true }
       );
 
-      // 5️⃣  refresh local context
+      
       setUser({ ...user, avatarUrl: url });
 
     } catch (err) {
@@ -49,11 +50,10 @@ export default function ProfileCard() {
   return (
     <div className="profile-card">
       <img
-        className="avatar-lg"
-        src={user.avatarUrl || user.photoURL || "/images/avatar-placeholder.png"}
-        alt="profile"
-      />
-      {/* …username / email UI exactly as before… */}
+  className="avatar-lg"
+  src={user.avatarUrl || placeholder}
+  alt="profile"
+/>
 
       <input
         type="file"
