@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useAuth } from '../components/context/AuthContext';
 
 
 import FlagSidebar        from '../components/FlagSidebar/FlagSidebar';
@@ -43,6 +44,8 @@ export default function ThingsToDoPage() {
   const { country: urlSlug } = useParams();  
   const navigate             = useNavigate();
   const [editMode, setEditMode] = useState(false);
+   const { isAdmin } = useAuth(); 
+  
 
   
   const initialSlug = COUNTRIES.some(c => c.slug === urlSlug) ? urlSlug : 'samoa';
@@ -110,22 +113,25 @@ export default function ThingsToDoPage() {
         <h1>{activeCountry.name}</h1>
         <p>{activeCountry.description}</p>
 
-        <div className="btn-row">
-        <button
-          className="admin-btn"                  
-          onClick={() => navigate(`/admin/add-activity/${selectedSlug}`)}
-        >
-          + Add
-        </button>
+        
+              {isAdmin && (
+                <div className="btn-row">
+                  <button
+                    className="admin-btn"
+                    onClick={() => navigate(`/admin/add-activity/${selectedSlug}`)}
+                  >
+                    + Add
+                  </button>
 
-        <button
-          className="admin-btn"                      
-          onClick={() => setEditMode(!editMode)}
-        >
-          {editMode ? "Done" : "Delete"}
-        </button>
-      </div>
-      </div>   
+                  <button
+                    className="admin-btn"
+                    onClick={() => setEditMode(!editMode)}
+                  >
+                    {editMode ? 'Done' : 'Delete'}
+                  </button>
+                </div>
+              )}
+            </div>
 
       
       <CountryActivities

@@ -1,12 +1,17 @@
-import React, { useState, useEffect, createContext, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  createContext,
+  useContext,
+} from "react";
 import { auth } from "../../firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  onAuthStateChanged
+  onAuthStateChanged,
+  getIdTokenResult,                 // ★ NEW
 } from "firebase/auth";
-
 
 const AuthContext = createContext();
 
@@ -16,35 +21,52 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);           // ★ NEW
   // const [loading, setLoading] = useState(true);
 
-  const signUp = (email, password) => {
-    return createUserWithEmailAndPassword(auth, email, password);
-  }
+  /* ────────────────────────────  auth helpers  ─────────────────────────── */
 
-  const login = (email, password) => {
-    return signInWithEmailAndPassword(auth, email, password);
-  }
+  const signUp = (email, password) =>
+    createUserWithEmailAndPassword(auth, email, password);
 
-  const logout = () => {
-    return signOut(auth)
-  }
+  const login = (email, password) =>
+    signInWithEmailAndPassword(auth, email, password);
+
+  const logout = () => signOut(auth);
+
+  /* ───────────────────────  watch login / logout  ─────────────────────── */
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
-      // setLoading(false);
-    })
-      return () => unsubscribe();
-    }, []);
+      if (!user) {
+        setIsAdmin(false);                                 // ★ NEW
+        return;
+      }
 
+      // pull down custom claims (forceRefresh true = always up-to-date)
+      const { claims } = await getIdTokenResult(user, true); // ★ NEW
+      setIsAdmin(claims.admin === true);                   // ★ NEW
+
+      // setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  /* ─────────────────────────────  export  ─────────────────────────────── */
 
   const value = {
     currentUser,
+    isAdmin,                                               // ★ NEW
     signUp,
     login,
-    logout
+    logout,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
