@@ -36,16 +36,16 @@ const styles = StyleSheet.create({
   },
   leftPattern: {
     position: 'absolute',
-    top: screenHeight * 0, // shift vertically to center
+    top: screenHeight * 0, 
     left: 0,
-    width: screenWidth * 0.5, // responsive width (~60%)
-    height: screenHeight * 10, // optional
+    width: screenWidth * 0.5, 
+    height: screenHeight * 10,
     resizeMode: 'contain',
-    opacity: 10, // optional for watermark effect
+    opacity: 10, 
   },
   palmImage: {
     position: 'absolute',
-    top: 80, // push it below the navbar (adjust as needed)
+    top: 80, 
     right: 0,
     width: screenWidth * 0.5,
     height: screenHeight * 0.35,
