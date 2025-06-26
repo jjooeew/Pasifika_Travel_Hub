@@ -1,4 +1,7 @@
 require("dotenv").config();
+
+console.log("Loaded MONGO_URI:", process.env.MONGO_URI); // ← debug
+
 const mongoose = require("mongoose");
 const Country  = require("../models/Country");
 const data     = require("../seed/countries.json");

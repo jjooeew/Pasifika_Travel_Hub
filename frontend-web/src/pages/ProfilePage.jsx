@@ -1,20 +1,18 @@
-import React from 'react';
+import PostFeed from "../components/PostFeed/PostFeed";
 
-import './ProfilePage.css';
-import  ProfileCard from '../components/ProfileCard/ProfileCard'
+import "./ProfilePage.css";
+import ProfileCard from "../components/ProfileCard/ProfileCard";
 
 function Profile() {
   return (
     <div className="app">
+      <ProfileCard />
+
       <h1>My Experiences</h1>
 
-      <ProfileCard/>
-
-        
-      </div>
-    
+      <PostFeed />
+    </div>
   );
 }
 
 export default Profile;
-
