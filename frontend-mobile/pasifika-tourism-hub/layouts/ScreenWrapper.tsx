@@ -11,19 +11,15 @@ const palm = require('../assets/images/palm.png');
 const ScreenWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
     <View style={styles.container}>
-      {/* Background images */}
       <Image source={pattern1} style={styles.leftPattern} resizeMode="repeat" />
       <Image source={palm} style={styles.palmImage} resizeMode="contain" />
 
-      {/* NavBar */}
       <NavBar />
 
-      {/* Content */}
       <View style={styles.content}>
         {children}
       </View>
 
-      {/* Footer */}
       <Footer />
     </View>
   );
