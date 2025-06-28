@@ -1,4 +1,3 @@
-// src/components/ProfileCard.jsx
 import { useContext, useState, useRef } from "react";
 import { UserContext } from "../context/UserContext";
 
@@ -16,8 +15,8 @@ export default function ProfileCard() {
   /* ---- local UI state ---- */
   const [savingAvatar, setSavingAvatar] = useState(false);
   const [editingName,  setEditingName]  = useState(false);
-  const [username,     setUsername]     = useState(user?.username || "");
-
+  const [username,     setUsername]     = useState(
+    user?.username || user?.displayName || "" );
   const fileInputRef = useRef(null);
 
   if (!user) return null; // still loading
@@ -72,21 +71,21 @@ export default function ProfileCard() {
 
   return (
     <div className="profile-card">
-      {/* avatar */}
+      
       <img
         className="avatar-lg"
         src={user.avatarUrl || user.photoURL || placeholder}
         alt="profile"
       />
 
-      {/* heading */}
+      
       <h2 className="card-heading">
         {user.displayName || user.username || "My Profile"}
       </h2>
 
-      {/* info table */}
+      
       <div className="info-table">
-        {/* username row */}
+        
         <div className="row">
           <span className="label">Username</span>
           {editingName ? (
@@ -104,19 +103,19 @@ export default function ProfileCard() {
               title="Click to edit"
               onClick={() => setEditingName(true)}
             >
-              {user.username || "—"}
+              {user.username || user.displayName || "—"}
             </span>
           )}
         </div>
 
-        {/* email row */}
+        
         <div className="row">
           <span className="label">Email</span>
           <span className="value">{user.email || "—"}</span>
         </div>
       </div>
 
-      {/* hidden file input */}
+      
       <input
         type="file"
         accept="image/*"
@@ -125,7 +124,7 @@ export default function ProfileCard() {
         style={{ display: "none" }}
       />
 
-      {/* visible upload button */}
+      
       <button onClick={openPicker} disabled={savingAvatar}>
         {savingAvatar ? "Uploading…" : "Upload photo"}
       </button>
