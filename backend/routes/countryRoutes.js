@@ -1,4 +1,5 @@
-const express = require("express");
+// backend/routes/countryRoutes.js
+const express = require('express');
 const router  = express.Router();
 
 const {
@@ -8,31 +9,31 @@ const {
   getCountryBySlug,
   updateCountryById,
   deleteCountryById,
-} = require("../controllers/countryController");
+} = require('../controllers/countryController');
 
-const activityRoutes = require("./activityRoutes");
+const activityRoutes = require('./activityRoutes');
 
-/* ─────────── nested activities ──────────── */
-// /api/countries/:slug/activities  → activitiesRouter
-router.use("/:slug/activities", activityRoutes);
+/* ──────────────────────────────────────────────
+   COUNTRY ROUTES - keep both mobile *and* web UIs
+   Order matters: most specific → most generic
+──────────────────────────────────────────────── */
 
-/* ─────────── country core routes ────────── */
+/* 1️⃣  LIST + CREATE  */
+router.get('/', getAllCountries);          // GET /api/countries
+router.post('/', addCountry);              // POST /api/countries
 
-// GET /api/countries            – all countries
-router.get("/", getAllCountries);
+/* 2️⃣  ID-BASED CRUD  (constant first segment “id”)  */
+router.get('/id/:id',     getCountryById);
+router.patch('/id/:id',   updateCountryById);
+router.delete('/id/:id',  deleteCountryById);
 
-// POST /api/countries           – create
-router.post("/", addCountry);
+/* 3️⃣  **LEGACY WEB PATH**  (/slug/…)  */
+router.get('/slug/:slug', getCountryBySlug);   // GET /api/countries/slug/samoa
 
-// GET  /api/countries/:slug     – by slug (human-friendly)
-router.get("/:slug", getCountryBySlug);
+/* 4️⃣  NESTED ACTIVITIES  (/🇼🇸/activities)  */
+router.use('/:slug/activities', activityRoutes); // GET /api/countries/samoa/activities
 
-/* 
-   ID-based routes live on /id/:id  so they never clash with slugs
-   (and we don’t need path-to-regexp gymnastics)
-*/
-router.get("/id/:id", getCountryById);
-router.patch("/id/:id", updateCountryById);
-router.delete("/id/:id", deleteCountryById);
+/* 5️⃣  CANONICAL SLUG DETAIL (mobile)  */
+router.get('/:slug', getCountryBySlug);     // GET /api/countries/samoa
 
 module.exports = router;
