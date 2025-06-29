@@ -1,40 +1,38 @@
 const express = require("express");
-const router = express.Router();
-
+const router  = express.Router();
 
 const {
-    addCountry,
-    getAllCountries,
-    getCountryById,
-    getCountryBySlug,
-    updateCountryById,
-    deleteCountryById
+  addCountry,
+  getAllCountries,
+  getCountryById,
+  getCountryBySlug,
+  updateCountryById,
+  deleteCountryById,
+} = require("../controllers/countryController");
 
-} = require('../controllers/countryController')
-
-const Country = require("../models/Country");
 const activityRoutes = require("./activityRoutes");
 
+/* ─────────── nested activities ──────────── */
+// /api/countries/:slug/activities  → activitiesRouter
+router.use("/:slug/activities", activityRoutes);
 
-// get all countries
-router.get("/", getAllCountries)
+/* ─────────── country core routes ────────── */
 
-// get country by id
-router.get("/:id", getCountryById)
+// GET /api/countries            – all countries
+router.get("/", getAllCountries);
 
-// get country by country name (slug)
-router.get("/slug/:slug", getCountryBySlug)
+// POST /api/countries           – create
+router.post("/", addCountry);
 
-// add country
-router.post("/", addCountry)
+// GET  /api/countries/:slug     – by slug (human-friendly)
+router.get("/:slug", getCountryBySlug);
 
-// update country by id (change to name?)
-router.patch("/:id", updateCountryById)
-
-
-// delete country by ID
-router.delete("/:id", deleteCountryById)
-
-router.use("/slug/:slug/activities", activityRoutes);
+/* 
+   ID-based routes live on /id/:id  so they never clash with slugs
+   (and we don’t need path-to-regexp gymnastics)
+*/
+router.get("/id/:id", getCountryById);
+router.patch("/id/:id", updateCountryById);
+router.delete("/id/:id", deleteCountryById);
 
 module.exports = router;
