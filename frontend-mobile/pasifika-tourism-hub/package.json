@@ -17,6 +17,7 @@
     "@react-navigation/elements": "^2.3.8",
     "@react-navigation/native": "^7.1.13",
     "axios": "^1.10.0",
+    "babel-plugin-dotenv-import": "^3.0.1",
     "expo": "~53.0.9",
     "expo-app-loading": "^2.1.1",
     "expo-blur": "~14.1.4",
