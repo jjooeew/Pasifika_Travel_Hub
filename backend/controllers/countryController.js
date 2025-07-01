@@ -1,93 +1,98 @@
 const Country = require("../models/Country");
 
-const express = require("express");
-const router = express.Router();
 
-
-// get all countries
-const getAllCountries = async (req, res) => {
+// GET /api/countries
+exports.getAllCountries = async (req, res, next) => {
   try {
-    const countries = await Country.find();
+    const countries = await Country.find().lean();
     res.json(countries);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    err.statusCode = 500;
+    next(err);
   }
 };
 
-// get single country by id
-const getCountryById = async (req, res) => {
+
+// GET /api/countries/:id  (Mongo ObjectId)
+exports.getCountryById = async (req, res, next) => {
   try {
-    const country = await Country.findById(req.params.id);
-    if (!country) return res.status(404).json({ error: "Country not found" });
+    const country = await Country.findById(req.params.id).lean();
+    if (!country) {
+      const err = new Error("Country not found");
+      err.statusCode = 404;
+      throw err;
+    }
     res.json(country);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    err.statusCode = err.statusCode || 500;
+    next(err);
   }
 };
 
-// get single country by name
-const getCountryBySlug = async (req, res) => {
+
+// GET /api/countries/slug/:slug
+exports.getCountryBySlug = async (req, res, next) => {
   try {
-    const country = await Country.findOne({ slug: req.params.slug });
-    if (!country) return res.status(404).json({ error: "Country not found" });
+    const country = await Country.findOne({ slug: req.params.slug }).lean();
+    if (!country) {
+      const err = new Error("Country not found");
+      err.statusCode = 404;
+      throw err;
+    }
     res.json(country);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    err.statusCode = err.statusCode || 500;
+    next(err);
   }
 };
 
-// create a country
-const addCountry = async (req, res) => {
-  const { countryName, slug, intro, history, language, exploration } = req.body;
 
+// POST /api/countries
+exports.addCountry = async (req, res, next) => {
   try {
-    const newCountry = new Country({
-      countryName,
-      slug,
-      intro,
-      history,
-      language,
-      exploration,
-    });
-
-    const saved = await newCountry.save();
-    res.status(201).json(saved);
+    const newCountry = await Country.create(req.body);
+    res.status(201).json(newCountry);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    err.statusCode = 400;          
+    next(err);
   }
 };
 
-// update country by id
-const updateCountryById = async (req, res) => {
+
+// PATCH /api/countries/:id
+exports.updateCountryById = async (req, res, next) => {
   try {
-    const updated = await Country.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
-    if (!updated) return res.status(404).json({ error: "Country not found" });
+    const updated = await Country.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    if (!updated) {
+      const err = new Error("Country not found");
+      err.statusCode = 404;
+      throw err;
+    }
     res.json(updated);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    err.statusCode = err.statusCode || 400;
+    next(err);
   }
 };
 
-// delete country by id
-const deleteCountryById = async (req, res) => {
+
+// DELETE /api/countries/:id
+exports.deleteCountryById = async (req, res, next) => {
   try {
     const deleted = await Country.findByIdAndDelete(req.params.id);
     if (!deleted) {
-      return res.status(404).json({ error: "Country not found" });
+      const err = new Error("Country not found");
+      err.statusCode = 404;
+      throw err;
     }
     res.json({ message: "Country deleted successfully" });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    err.statusCode = 500;
+    next(err);
   }
 };
 
-module.exports = {
-  addCountry,
-  getAllCountries,
-  getCountryById,
-  getCountryBySlug,
-  updateCountryById,
-  deleteCountryById,
-};
