@@ -1,29 +1,36 @@
-.country-header {
-  text-align: center;
-  margin-bottom: 1.5rem;
+::after {
+  box-sizing: border-box;
+}
+
+.country-header {        
+  margin: 0 auto 1.5rem;   
+  text-align: center;     
 }
 
 .country-header h1 {
-  float: left;
+  display: inline-block;       
   font-family: 'Great Vibes', cursive;
-  font-size: 2.6rem;         /* adjust until it matches your old size */
-  line-height: 1;
-  border-right: 50px;
-  color: #29445e;            /* same colour you used before */
+  font-size: 2.6rem;
+  line-height: 5;
+  padding-right: 25%;
+  margin: 0 0.5rem 0.4rem;      
+  color: #29445e;
 }
 
 .country-header p {
-  margin: 0.4rem 0 1rem;
+  margin: 0 0 1rem;
   font-size: 1rem;
+  color: #555;
 }
 
 .btn-row {
   display: flex;
+  flex-wrap: wrap;        
   gap: 0.6rem;
   justify-content: center;
   margin-bottom: 1.2rem;
+  padding: 0 1rem;        
 }
-
 
 .admin-btn {
   padding: 0.55rem 1.4rem;
@@ -32,11 +39,20 @@
   font-weight: 600;
   font-size: 0.95rem;
   cursor: pointer;
-
-  background: #32b187;        /* lighter green than navbar */
-  color: #ffffff;
+  background: #32b187;
+  color: #fff;
   transition: background 0.2s ease, transform 0.1s ease;
 }
 
 .admin-btn:hover  { background: #39c295; }
 .admin-btn:active { transform: scale(0.97); }
+
+@media (max-width: 480px) {
+  .country-header h1 {
+    font-size: 2rem;     
+  }
+  .admin-btn {
+    flex: 1 1 100%;       
+    text-align: center;
+  }
+}
