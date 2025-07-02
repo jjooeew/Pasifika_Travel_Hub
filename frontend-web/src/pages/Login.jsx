@@ -1,17 +1,18 @@
 import { useState } from "react";
 import { useAuth } from "../components/context/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
       await login(email, password);
-      alert("Logged in successfully!");
+      navigate("/");      
     } catch (err) {
       alert("Error: " + err.message);
     }

@@ -48,9 +48,7 @@ export default function PostFeed() {
 
   const fetchCountries = async () => {
     try {
-      const res = await await axios.get(
-        "http://192.168.68.61:5000/api/countries"
-      );
+      const res = await axios.get(`${process.env.API_URL}/api/countries`);
 
       setCountryOptions(res.data as any[]);
     } catch (err) {

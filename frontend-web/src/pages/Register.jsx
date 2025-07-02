@@ -1,4 +1,3 @@
-// src/pages/Register.jsx
 import { useState } from "react";
 import { useAuth } from "../components/context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
@@ -15,11 +14,11 @@ export default function Register() {
   });
   const [error, setError] = useState("");
 
-  /* ——— handle input ——— */
+  /* handle input */
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  /* ——— create account ——— */
+  /* create account */
   const handleRegister = async (e) => {
     e.preventDefault();
     setError("");
@@ -28,7 +27,7 @@ export default function Register() {
 
     try {
       await signUp(email, password, username.trim());
-      navigate("/");                 // go to dashboard (change as needed)
+      navigate("/");                
     } catch (err) {
       setError(err.message);
     }
