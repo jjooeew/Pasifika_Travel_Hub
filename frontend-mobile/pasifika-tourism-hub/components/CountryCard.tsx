@@ -7,7 +7,11 @@ import {
   StyleSheet,
   Dimensions,
 } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useNavigation } from "@react-navigation/native";
+import { DrawerNavigationProp } from "@react-navigation/drawer";
+import { DrawerParamList } from "../src/types/navigation";
+
+
 
 export type Country = {
   name: string;
@@ -17,12 +21,12 @@ export type Country = {
 };
 
 export default function CountryCard({ name, image, flag, href }: Country) {
-  const router = useRouter();
+const navigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
 
   return (
     <TouchableOpacity
       style={styles.card}
-      onPress={() => router.push(href="/things")}
+      onPress={() => navigation.navigate("ThingsToDo")}
     >
       <Text style={styles.name}>{name}</Text>
       <View style={styles.imageWrap}>
