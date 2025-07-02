@@ -116,7 +116,7 @@ function PostFeed() {
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-        const res = await axios.get("http://localhost:4000/api/countries");
+        const res = await axios.get("http://localhost:5000/api/countries");
         setCountryOptions(res.data);
       } catch (err) {
         console.error("Error fetching countries:", err);
