@@ -28,6 +28,7 @@ import {
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import * as ImagePicker from "expo-image-picker";
 import api from "../services/api";
+ 
 
 export default function PostFeed() {
   const { user } = useAuth();
@@ -49,6 +50,7 @@ export default function PostFeed() {
   const fetchCountries = async () => {
     try {
       const res = await api.get("/countries");
+ 
 
       setCountryOptions(res.data as any[]);
     } catch (err) {
