@@ -27,7 +27,8 @@ import {
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import * as ImagePicker from "expo-image-picker";
-import axios from "axios";
+import api from "../services/api";
+ 
 
 export default function PostFeed() {
   const { user } = useAuth();
@@ -48,7 +49,8 @@ export default function PostFeed() {
 
   const fetchCountries = async () => {
     try {
-      const res = await axios.get(`${process.env.API_URL}/api/countries`);
+      const res = await api.get("/countries");
+ 
 
       setCountryOptions(res.data as any[]);
     } catch (err) {
