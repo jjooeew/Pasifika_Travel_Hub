@@ -3,36 +3,51 @@ console.log("ACTIVITY CTRL loaded");
 const Country = require("../models/Country");
 
 
-exports.addActivity = async (req, res) => {
+// POST 
+exports.addActivity = async (req, res, next) => {
   try {
     const country = await Country.findOne({ slug: req.params.slug });
-    if (!country) return res.status(404).json({ error: "Country not found" });
+    if (!country) {
+      const err = new Error("Country not found");
+      err.statusCode = 404;
+      throw err;
+    }
 
     country.exploration.activities.push(req.body);
     await country.save();
 
-    res.status(201).json(country.exploration.activities.slice(-1)[0]); // return the new one
+    const newActivity = country.exploration.activities.slice(-1)[0];
+    res.status(201).json(newActivity);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    err.statusCode = err.statusCode || 400; 
+    next(err);                                
   }
 };
 
 
-exports.getActivities = async (req, res) => {
+// GET 
+exports.getActivities = async (req, res, next) => {
   try {
     const country = await Country.findOne(
       { slug: req.params.slug },
       { "exploration.activities": 1, _id: 0 }
-    );
-    if (!country) return res.status(404).json({ error: "Country not found" });
+    ).lean();                                  
+
+    if (!country) {
+      const err = new Error("Country not found");
+      err.statusCode = 404;
+      throw err;
+    }
 
     res.json(country.exploration.activities);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    err.statusCode = err.statusCode || 500;     
+    next(err);
   }
 };
 
-exports.deleteActivity = async (req, res) => {
+// Delete
+exports.deleteActivity = async (req, res, next) => {
   try {
     const { slug, activityId } = req.params;
 
@@ -41,10 +56,16 @@ exports.deleteActivity = async (req, res) => {
       { $pull: { "exploration.activities": { _id: activityId } } },
       { new: true }
     );
-    if (!country) return res.status(404).json({ error: "Country not found" });
+
+    if (!country) {
+      const err = new Error("Country not found");
+      err.statusCode = 404;
+      throw err;
+    }
 
     res.json({ message: "Activity deleted" });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    err.statusCode = err.statusCode || 500;
+    next(err);
   }
 };

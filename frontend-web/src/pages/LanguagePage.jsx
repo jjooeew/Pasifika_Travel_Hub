@@ -1,37 +1,33 @@
-
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import FlagSidebar   from '../components/FlagSidebar/FlagSidebar';
 import TextToSpeech  from '../components/TextToSpeech/TextToSpeech';
 import './LanguagePage.css';
 
-
 import samoaFlag from '../assets/flags/sa.png';
 import fijiFlag  from '../assets/flags/fi.png';
 import tongaFlag from '../assets/flags/to.png';
 
-
 const phraseData = {
   samoa: [
-    'Talofa lava',
-    'O a mai oe?',
-    'Manuia le aso',
-    'Fa’afetai tele',
+    { text: 'Talofa lava',      translation: 'Hello, greetings'    },
+    { text: 'O a mai oe?',      translation: 'How are you?'        },
+    { text: 'Manuia le aso',    translation: 'Have a good day'     },
+    { text: 'Fa’afetai tele',   translation: 'Thank you very much' },
   ],
   fiji: [
-    'Bula',
-    'Vakacava tiko?',
-    'Moce mada',
-    'Vinaka vaka levu',
+    { text: 'Bula',             translation: 'Hello'               },
+    { text: 'Vakacava tiko?',   translation: 'How are you?'        },
+    { text: 'Moce mada',        translation: 'Goodbye'             },
+    { text: 'Vinaka vaka levu', translation: 'Thank you very much' },
   ],
   tonga: [
-    'Mālō e lelei',
-    'Fēfē hake?',
-    'Nofo ā',
-    'Mālō aupito',
+    { text: 'Mālō e lelei',     translation: 'Hello'               },
+    { text: 'Fēfē hake?',       translation: 'How are you?'        },
+    { text: 'Nofo ā',           translation: 'Stay well'           },
+    { text: 'Mālō aupito',      translation: 'Many thanks'         },
   ],
 };
-
 
 const countries = [
   { slug: 'samoa', name: 'Samoa', flag: samoaFlag },
@@ -40,45 +36,47 @@ const countries = [
 ];
 
 export default function LanguagePage() {
-  const { country: urlSlug } = useParams(); 
+  const { country: urlSlug } = useParams();
   const navigate = useNavigate();
 
-  
-  const initialSlug = phraseData[urlSlug] ? urlSlug : 'samoa';
-  const [selectedSlug, setSelectedSlug] = useState(initialSlug);
+  const initial = phraseData[urlSlug] ? urlSlug : 'samoa';
+  const [selected, setSelected] = useState(initial);
 
-  
   useEffect(() => {
-    if (urlSlug !== selectedSlug) {
-      if (phraseData[urlSlug]) setSelectedSlug(urlSlug);
-      else navigate('/samoa/language', { replace: true });
+    if (urlSlug !== selected) {
+      if (phraseData[urlSlug]) {
+        setSelected(urlSlug);
+      } else {
+        navigate('/samoa/language', { replace: true });
+      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [urlSlug]);
-
 
   const handleSelect = (slug) => {
     navigate(`/${slug}/language`);
   };
 
- 
-  const heading = countries.find(c => c.slug === selectedSlug)?.name ?? '';
+  const heading = countries.find(c => c.slug === selected)?.name || '';
 
   return (
     <div className="language-page">
       <FlagSidebar
         countries={countries}
-        selectedCountry={selectedSlug}
+        selectedCountry={selected}
         onSelect={handleSelect}
       />
 
       <div className="phrases-card">
-        <h2>{heading} - Useful phrases</h2>
+        <h2>{heading} – Useful Phrases</h2>
         <ul>
-          {phraseData[selectedSlug].map((phrase, i) => (
+          {phraseData[selected].map(({ text, translation }, i) => (
             <li key={i} className="phrase-line">
-              <span>{phrase}</span>
-              <TextToSpeech text={phrase} lang="en-US" />
+              <div className="phrase-texts">
+                <span className="phrase-original">{text}</span>
+                <span className="phrase-translation">{translation}</span>
+              </div>
+              <TextToSpeech text={text} lang="en-US" />
             </li>
           ))}
         </ul>
