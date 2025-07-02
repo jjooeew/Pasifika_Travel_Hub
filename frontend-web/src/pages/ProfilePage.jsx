@@ -1,16 +1,19 @@
+import React from "react";
 import PostFeed from "../components/PostFeed/PostFeed";
-
-import "./ProfilePage.css";
 import ProfileCard from "../components/ProfileCard/ProfileCard";
+import "./ProfilePage.css";
 
 function Profile() {
   return (
     <div className="app">
-      <ProfileCard />
+      <div className="profile-page">
+        <ProfileCard />
 
-      <h1>My Experiences</h1>
-
-      <PostFeed />
+        <div className="experiences">
+          <h1 className="experiences__title">My Experiences</h1>
+          <PostFeed />
+        </div>
+      </div>
     </div>
   );
 }
