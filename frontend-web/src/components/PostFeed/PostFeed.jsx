@@ -17,6 +17,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import axios from "axios";
 
 import "./PostFeed.css";
+import { api } from "../../services/api";
 
 function PostFeed() {
   const { currentUser } = useAuth();
@@ -116,7 +117,7 @@ function PostFeed() {
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/countries");
+        const res = await api.get("/countries");
         setCountryOptions(res.data);
       } catch (err) {
         console.error("Error fetching countries:", err);
@@ -139,7 +140,7 @@ function PostFeed() {
         >
           <option value="">Select a country</option>
           {countryOptions.map((c) => (
-            <option key={c._id} value={c.countryName}>
+            <option key={c._id} value={c.slug}>
               {c.countryName}
             </option>
           ))}
