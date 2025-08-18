@@ -1,8 +1,16 @@
 import { useState } from "react";
-import axios from "axios";
-import  "./AddCountry.css";
+import "./AddCountry.css";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { storage } from "../firebase";
+import { createCountry } from "../services/api";
+
+const slugify = (s) =>
+  (s || "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
 
 export default function AddCountry() {
   const [formData, setFormData] = useState({
@@ -15,41 +23,65 @@ export default function AddCountry() {
 
   const [flagImage, setFlagImage] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState("");
+
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    const {name, value } = e.target;
+    if (name === "countryName" && !formData.slug) {
+        setFormData((p) => ({ ...p, countryName: value, slug: slugify(value) }));
+    } else if (name === "slug") {
+        setFormData((p) => ({ ...p, slug: slugify(value) }));
+    } else {
+      setFormData((p) => ({ ...p, [name]: value }));
+    }
   };
 
   const handleFileChange = (e) => setFlagImage(e.target.files[0]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    setUploading(true);
+
     try {
-
-      setUploading(true);
-
       // 1) Upload image to Firebase Storage
       let flagUrl = "";
       if (flagImage) {
-        const storageRef = ref(storage, `flags/${Date.now()}-${flagImage.name}`);
+        const storageRef = ref(
+          storage,
+          `flags/${Date.now()}-${flagImage.name}`
+        );
         await uploadBytes(storageRef, flagImage);
         flagUrl = await getDownloadURL(storageRef);
       }
 
+      // 2) Build payload in the shape your backend expects
+      //    (most controllers use `name` not `countryName`)      
+      const payload = {
+        countryName: formData.countryName,
+        slug: formData.slug || slugify(formData.countryName),
+        intro: formData.intro,
+        history: formData.history,
+        flagUrl,
+      };
 
-      // 2) Send data + image URL to Mongo backend
-      const payload = { ...formData, flagUrl };
-      const response = await axios.post( "http://localhost:4000/api/countries", payload);
+      // 3) Use the api helper so the Authorisation header is attached
+      const res = await createCountry(payload);
+
 
       alert(`Country "${formData.countryName}" added successfully!`);
-      console.log("Country added: ", response.data);
+      console.log("Country added: ", res.data);
 
       // 3) Reset form
       setFormData({ countryName: "", slug: "", intro: "", history: "" });
       setFlagImage(null);
-    
     } catch (err) {
-      console.error("Error adding country: ", err.response?.data || err.message);
+      console.error(
+        "Error adding country: ",
+        err.res?.data || err.message
+      );
     } finally {
       setUploading(false);
     }
@@ -57,7 +89,7 @@ export default function AddCountry() {
 
   return (
     <div className="pageWrapper">
-     <form className="formContainer" onSubmit={handleSubmit}>
+      <form className="formContainer" onSubmit={handleSubmit}>
         <input
           name="countryName"
           value={formData.countryName}
@@ -82,13 +114,9 @@ export default function AddCountry() {
           onChange={handleChange}
           placeholder="History"
         />
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange}
-        />
+        <input type="file" accept="image/*" onChange={handleFileChange} />
         <button type="submit" disabled={uploading}>
-          { uploading ? "Uploading..." : "Add Country" }
+          {uploading ? "Uploading..." : "Add Country"}
         </button>
       </form>
     </div>

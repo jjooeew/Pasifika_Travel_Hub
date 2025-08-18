@@ -1,4 +1,4 @@
-// src/components/layout/NavBar.jsx   (adjust path to match your tree)
+// src/components/NavBar.jsx   (adjust path to match your tree)
 import { Link } from "react-router-dom";
 import { useState, useContext } from "react";
 
@@ -11,7 +11,7 @@ import "./NavBar.css";
 
 export default function NavBar() {
   const [dropdown, setDropdown] = useState(false);
-  const { currentUser, logout } = useAuth();
+  const { currentUser, isAdmin, logout } = useAuth();
   const { user } = useContext(UserContext);                      // { avatarUrl, … }
 
   const toggleDropdown = () => setDropdown((prev) => !prev);
@@ -65,6 +65,7 @@ export default function NavBar() {
             ) : (
               <>
                 <Link to="/profile" onClick={() => setDropdown(false)}>Profile</Link>
+                {isAdmin && <Link to="/admin/add-country" onClick={() => setDropdown(false)}>Add Country</Link>}
                 <button
                   onClick={() => {
                     handleLogout();

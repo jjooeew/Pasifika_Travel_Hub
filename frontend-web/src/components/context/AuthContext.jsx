@@ -4,24 +4,21 @@ import React, {
   useContext,
   useEffect,
   useState,
+  useMemo
 } from "react";
 import { auth, db } from "../../firebase";           // make sure db is exported
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  onAuthStateChanged,
   getIdTokenResult,
-  updateProfile,                                     // NEW
+  updateProfile,
+  onIdTokenChanged,                                     // NEW
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";    // NEW
 
-/* --------------------------------------------------- */
-/* 1️⃣  RAW CONTEXT – export it in case anyone needs it */
-export const AuthContext = createContext(null);
-/* --------------------------------------------------- */
 
-/* 2️⃣  Hook the rest of the app will call */
+export const AuthContext = createContext();
 export function useAuth() {
   return useContext(AuthContext);
 }
@@ -29,12 +26,10 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [isAdmin, setIsAdmin]         = useState(false);
+  const [loading, setLoading]         = useState(true);
 
-  /* ─────────── auth helpers ─────────── */
+// helpers
 
-  /** Create a user, store username in both Auth (displayName)
-   *  and a matching Firestore document.
-   */
   const signUp = async (email, password, username) => {
     // create Auth account
     const cred = await createUserWithEmailAndPassword(auth, email, password);
@@ -45,7 +40,7 @@ export function AuthProvider({ children }) {
     // create the Firestore user doc (adjust fields to taste)
     await setDoc(doc(db, "users", cred.user.uid), {
       username,
-      avatarUrl: "",          // empty for now; update after upload
+      avatarUrl: "", 
       likedActivities: [],
     });
   };
@@ -55,20 +50,37 @@ export function AuthProvider({ children }) {
 
   const logout = () => signOut(auth);
 
+  const refreshClaims = async () => {
+    if (!auth.currentUser) return null;
+    const res = await getIdTokenResult(auth.currentUser, true);
+    setIsAdmin(!!res.claims.admin);
+    return res;
+  }
+
+  const getIdToken = async () => {
+    if (!auth.currentUser) return null;
+    return auth.currentUser.getIdToken();
+  }
+
   /* ─────────── watch login / logout ─────────── */
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    const unsubscribe = onIdTokenChanged(auth, async (user) => {
       setCurrentUser(user);
 
       if (!user) {
         setIsAdmin(false);
+        setLoading(false)
         return;
       }
 
       // pull custom claims once per login
+      try {
       const { claims } = await getIdTokenResult(user, true);
-      setIsAdmin(claims.admin === true);
+        setIsAdmin(!!claims.admin)
+      } finally {
+        setLoading(false)
+      }
     });
 
     return () => unsubscribe();
@@ -76,13 +88,19 @@ export function AuthProvider({ children }) {
 
   /* ─────────── provider value ─────────── */
 
-  const value = {
+  const value = useMemo(
+    () => ({
     currentUser,
     isAdmin,
+    loading,
     signUp,
     login,
     logout,
-  };
+    refreshClaims,
+    getIdToken,
+  }),
+  [currentUser, isAdmin, loading]
+); 
 
   return (
     <AuthContext.Provider value={value}>

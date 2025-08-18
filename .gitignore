@@ -8,7 +8,7 @@ node_modules/
 # secrets
 .env
 .env.*
-serviceAccountKey.json
+serviceAccount.json
 pasifikahub-bbacc-firebase-adminsdk-fbsvc-a8d8a501ce.json
 
 # build / dist
