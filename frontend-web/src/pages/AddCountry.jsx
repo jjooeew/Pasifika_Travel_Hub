@@ -27,11 +27,19 @@ export default function AddCountry() {
 
 
   const handleChange = (e) => {
-
     const {name, value } = e.target;
-    if (name === "countryName" && !formData.slug) {
-        setFormData((p) => ({ ...p, countryName: value, slug: slugify(value) }));
+    if (name === "countryName") {
+        setFormData((p) => { 
+          const next = { ...p, countryName: value }; 
+          // If slug still matches the previous auth generated slug, keep auto updating
+          if (p.slug === slugify(p.countryName)) {
+              next.slug = slugify(value)
+          }
+          return next;
+        });
+
     } else if (name === "slug") {
+      // If user is editing slug manually, normalise it but stop auto-update
         setFormData((p) => ({ ...p, slug: slugify(value) }));
     } else {
       setFormData((p) => ({ ...p, [name]: value }));
@@ -57,8 +65,7 @@ export default function AddCountry() {
         flagUrl = await getDownloadURL(storageRef);
       }
 
-      // 2) Build payload in the shape your backend expects
-      //    (most controllers use `name` not `countryName`)      
+      // 2) Build payload in the shape the backend expects
       const payload = {
         countryName: formData.countryName,
         slug: formData.slug || slugify(formData.countryName),

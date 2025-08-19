@@ -92,7 +92,7 @@ export default function ThingsToDoPage({ route }: any) {
         renderItem={({ item }) => {
           const uri =
             item.imageUrl?.trim?.() ||
-            (item as any).imageURL?.trim?.() ||
+            (item as any).imageUrl?.trim?.() ||
             (item as any).image?.trim?.() ||
             "";
           return (

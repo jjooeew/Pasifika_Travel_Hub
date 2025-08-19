@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getAuth } from "firebase/auth";
 
-const baseURL = process.env.REACT_APP_API_URL
+const baseURL = process.env.REACT_APP_API_URL;
 export const api = axios.create({
   baseURL,
 });
@@ -20,14 +20,22 @@ api.interceptors.request.use(async (config) => {
     console.warn("[api] token attach failed: ", e?.message);
   }
   return config;
-})
+});
 
-export const createCountry = (body) => api.post(`/countries`, body);
+export const getCountries = () => 
+  api.get("/api/countries");
+export const getCountry = (slug) => 
+  api.get(`/api/countries/${slug}`);
+export const createCountry = (payload) => 
+  api.post(`/countries`, payload);
+export const updateCountry = (slug, payload) =>
+  api.put(`/api/countries/${slug}`, payload);
+export const deleteCountry = (slug) => 
+  api.delete(`/api/countries/${slug}`);
 
-export const getCountry = (slug) => api.get(`/countries/slug/${slug}`);
-
-export const addActivity = (slug, body) =>
-  api.post(`/countries/${slug}/activities`, body);
-
+export const getActivities = (slug) =>
+  api.get(`/api/countries/${slug}/activities`);
+export const addActivity = (slug, payload) =>
+  api.post(`/api/countries/${slug}/activities`, payload);
 export const deleteActivity = (slug, id) =>
-  api.delete(`/countries/slug/${slug}/activities/${id}`);
+  api.delete(`/api/countries/${slug}/activities/${id}`);

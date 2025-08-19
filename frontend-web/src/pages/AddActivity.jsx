@@ -11,7 +11,7 @@ export default function AddActivity() {
     slug: "",      
     title: "",
     description: "",
-    imageURL: "",
+    imageUrl: "",
     liked: false
   });
 
@@ -61,8 +61,8 @@ export default function AddActivity() {
           required
         />
         <input
-          name="imageURL"
-          value={formData.imageURL}
+          name="imageUrl"
+          value={formData.imageUrl}
           onChange={handleChange}
           placeholder="Image URL"
         />

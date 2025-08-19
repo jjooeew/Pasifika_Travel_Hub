@@ -38,8 +38,8 @@ export default function CountryActivities({
           )}
 
           {/* image */}
-          {a.imageURL && (
-            <img src={a.imageURL} alt={a.title} className="card-img" />
+          {a.imageUrl && (
+            <img src={a.imageUrl} alt={a.title} className="card-img" />
           )}
 
           {/* title + text */}

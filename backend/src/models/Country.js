@@ -6,16 +6,23 @@ const countrySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    slug: { type: String, unique: true, required: true },
+    slug: { 
+      type: String, 
+      unique: true, 
+      required: true 
+    },
     intro: String,
     history: String,
-    language: [{ phrase: String, meaning: String }],
+    language: [{ 
+      phrase: String, 
+      meaning: String 
+    }],
     exploration: {
       activities: [
         {
-          title: String,
-          description: String,
-          imageURL: String,
+          title: { type: String, required: true },
+          description: { type: String, required: true },
+          imageUrl: { type: String, required: true },
           liked: { type: Boolean, default: false },
         },
       ],
