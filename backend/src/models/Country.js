@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const countrySchema = new mongoose.Schema(
+const CountrySchema = new mongoose.Schema(
   {
     countryName: {
       type: String,
@@ -13,27 +13,9 @@ const countrySchema = new mongoose.Schema(
     },
     intro: String,
     history: String,
-    language: [{ 
-      phrase: String, 
-      meaning: String 
-    }],
-    exploration: {
-      activities: [
-        {
-          title: { type: String, required: true },
-          description: { type: String, required: true },
-          imageUrl: { type: String, required: true },
-          liked: { type: Boolean, default: false },
-        },
-      ],
-      // food: [String],
-      // events: [String],
-    },
-    // images: [{ url: String, caption: String }],
     flagUrl: String,
-    // moreInfo: String,
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Country", countrySchema);
+module.exports = mongoose.model("Country", CountrySchema);

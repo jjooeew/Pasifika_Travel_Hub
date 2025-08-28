@@ -36,11 +36,17 @@ export default function ManageCountries() {
     }
   };
 
+  const addActivity = (slug) =>
+    navigate(`/admin/countries/${slug}/activities/new`);
+
   return (
     <div className="container">
       <div className="header">
         <h1>Manage Countries</h1>
-        <button className="btn btn--primary" onClick={() => navigate("/admin/add-country")}>
+        <button
+          className="btn btn--primary"
+          onClick={() => navigate("/admin/add-country")}
+        >
           + Add Country
         </button>
       </div>
@@ -81,6 +87,20 @@ export default function ManageCountries() {
                     onClick={() => navigate(`/admin/countries/${c.slug}/edit`)}
                   >
                     Edit
+                  </button>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => addActivity(c.slug)}
+                  >
+                    + Activity
+                  </button>
+                  <button
+                    className="btn btn--ghost"
+                    onClick={() =>
+                      navigate(`/countries/${c.slug}/things-to-do`)
+                    }
+                  >
+                    View
                   </button>
                   <button
                     className="btn btn--danger"

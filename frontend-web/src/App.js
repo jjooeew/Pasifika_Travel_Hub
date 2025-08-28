@@ -3,17 +3,10 @@ import NavBar from "./components/NavBar/NavBar";
 import LandingPage from "./pages/LandingPage";
 import ProfilePage from "./pages/ProfilePage";
 import ThingstodoPage from "./pages/ThingstodoPage";
-import LanguagePage from "./pages/LanguagePage";
-import KidsPage from "./pages/KidsPage";
 import Footer from "./components/Footer/Footer";
-import HistoryPage from "./pages/HistoryPage";
-import SamoaHome from "./pages/SamoaHome";
-import TongaHome from "./pages/TongaHome";
-import FijiHome from "./pages/FijiHome";
-import AddCountry from "./pages/AddCountry";
-import AddActivity from "./pages/AddActivity";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import CountryPage from "./pages/CountryPage"
 
 // Admin Routes
 import AdminRoute from "./routes/AdminRoute";
@@ -21,6 +14,13 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import ManageCountries from "./pages/admin/ManageCountries";
 import EditCountry from "./pages/admin/EditCountry";
 import AdminLayout from "./pages/admin/AdminLayout";
+import AdminAddActivity from "./pages/admin/AddActivity";
+
+
+// Need to put in as admin route?
+import AddCountry from "./pages/AddCountry";
+
+
 
 function App() {
   return (
@@ -31,16 +31,8 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/things-to-do" element={<ThingstodoPage />} />
-          <Route path="/:country/things-to-do" element={<ThingstodoPage />} />
-          <Route path="/language" element={<LanguagePage />} />
-          <Route path="/:country/language" element={<LanguagePage />} />
-          <Route path="/history" element={<HistoryPage />} />
-          <Route path="/:country/history" element={<HistoryPage />} />
-          <Route path="/kids" element={<KidsPage />} />
-          <Route path="/samoa" element={<SamoaHome />} />
-          <Route path="/fiji" element={<FijiHome />} />
-          <Route path="/tonga" element={<TongaHome />} />
+          <Route path="/countries/:slug/things-to-do" element={<ThingstodoPage />} />
+          <Route path="/countries/:slug" element={<CountryPage />} />
           <Route
             path="/admin/admin-dashboard"
             element={
@@ -66,14 +58,6 @@ function App() {
               }
             />
             <Route
-              path="add-activity/:slug"
-              element={
-                <AdminRoute>
-                  <AddActivity />
-                </AdminRoute>
-              }
-            />
-            <Route
               path="countries"
               element={
                 <AdminRoute>
@@ -84,6 +68,14 @@ function App() {
             <Route
               path="countries/:slug/edit"
               element={<EditCountry />}
+            />
+            <Route
+              path="countries/:slug/activities/new"
+              element={
+                <AdminRoute>
+                  <AdminAddActivity />
+                </AdminRoute>
+              }
             />
           </Route>
           <Route path="/login" element={<Login />} />

@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import FlagSidebar   from '../components/FlagSidebar/FlagSidebar';
-import TextToSpeech  from '../components/TextToSpeech/TextToSpeech';
+import FlagSidebar   from '../../components/FlagSidebar/FlagSidebar';
+import TextToSpeech  from '../../components/TextToSpeech/TextToSpeech';
 import './LanguagePage.css';
 
 import samoaFlag from '../assets/flags/sa.png';

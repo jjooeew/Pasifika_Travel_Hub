@@ -14,12 +14,12 @@ const { requireAdmin } = require('../middleware/auth');
 const activityRoutes = require('./activityRoutes');
 
 
-router.get('/', getAllCountries);
-router.post('/', requireAdmin, addCountry); 
+router.get('/countries', getAllCountries);
+router.post('/countries', requireAdmin, addCountry); 
 
-router.get('/:slug', getCountryBySlug);   
-router.put('/:slug', requireAdmin, updateCountryBySlug);
-router.delete('/:slug', requireAdmin, deleteCountryBySlug);
+router.get('/countries/:slug', getCountryBySlug);   
+router.put('/countries/:slug', requireAdmin, updateCountryBySlug);
+router.delete('/countries/:slug', requireAdmin, deleteCountryBySlug);
 
 router.use('/:slug/activities', activityRoutes);
 

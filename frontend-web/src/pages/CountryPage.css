@@ -1,0 +1,31 @@
+.country-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.country-hero {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.country-flag {
+  width: 60px;
+  height: auto;
+  border: 1px solid #ccc;
+}
+
+.country-title {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.country-intro,
+.country-history {
+  margin-top: 2rem;
+}
+
+.country-actions {
+  margin-top: 2rem;
+}

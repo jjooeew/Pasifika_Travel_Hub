@@ -32,9 +32,16 @@ export const updateCountry = (slug, payload) =>
 export const deleteCountry = (slug) => 
   api.delete(`/api/countries/${slug}`);
 
-export const getActivities = (slug) =>
-  api.get(`/api/countries/${slug}/activities`);
-export const addActivity = (slug, payload) =>
+export const createActivity = (slug, payload) =>
   api.post(`/api/countries/${slug}/activities`, payload);
-export const deleteActivity = (slug, id) =>
-  api.delete(`/api/countries/${slug}/activities/${id}`);
+export const listActivities = (slug) =>
+  api.get(`/api/countries/${slug}/activities`);
+export const deleteActivity = (activityId) =>
+  api.delete(`/api/activities/${activityId}`);
+
+// export const getActivities = (slug) =>
+//   api.get(`/api/countries/${slug}/activities`);
+// export const addActivity = (slug, payload) =>
+//   api.post(`/api/countries/${slug}/activities`, payload);
+// export const deleteActivity = (slug, id) =>
+//   api.delete(`/api/countries/${slug}/activities/${id}`);

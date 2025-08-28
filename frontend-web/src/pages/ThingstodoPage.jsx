@@ -1,148 +1,117 @@
-import { useParams, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { useAuth } from '../components/context/AuthContext';
+// frontend-web/src/pages/ThingsToDoPage.jsx
+import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useAuth } from "../components/context/AuthContext";
 
-
-import FlagSidebar        from '../components/FlagSidebar/FlagSidebar';
-import CountryActivities  from '../components/CountryActivities/CountryActivities';
-import { getCountry } from '../services/api';
-import './ThingstodoPage.css'
-import { deleteActivity } from '../services/api';
-
-import samoaFlag from '../assets/flags/sa.png';
-import fijiFlag  from '../assets/flags/fi.png';
-import tongaFlag from '../assets/flags/to.png';
-
-
-
-const COUNTRIES = [
-  {
-    slug: 'samoa',
-    name: 'Samoa',
-    flag: samoaFlag,
-    description:
-      'Enjoy Samoa’s natural beauty with a blend of beach and cultural activities.',
-  },
-  {
-    slug: 'fiji',
-    name: 'Fiji',
-    flag: fijiFlag,
-    description:
-      'Enjoy Fiji’s natural beauty with a blend of beach and cultural activities.',
-      },
-  {
-    slug: 'tonga',
-    name: 'Tonga',
-    flag: tongaFlag,
-    description:
-      'Enjoy Tonga’s natural beauty with a blend of beach and cultural activities.',
-      },
-];
-
+import CountryActivities from "../components/CountryActivities/CountryActivities";
+import { getCountry, listActivities, deleteActivity } from "../services/api";
+import "./ThingstodoPage.css";
 
 export default function ThingsToDoPage() {
-  const { country: urlSlug } = useParams();  
-  const navigate             = useNavigate();
+  // Route should be /countries/:slug/things-to-do
+  const { slug } = useParams();
+  const navigate = useNavigate();
+  const { isAdmin } = useAuth();
+
+  const [country, setCountry] = useState(null);
+  const [activities, setActivities] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [editMode, setEditMode] = useState(false);
-   const { isAdmin } = useAuth(); 
-  
 
-  
-  const initialSlug = COUNTRIES.some(c => c.slug === urlSlug) ? urlSlug : 'samoa';
-  const [selectedSlug, setSelectedSlug] = useState(initialSlug);
-
-  const [activities, setActivities] = useState([]); 
-  const [loading, setLoading]       = useState(true);
-
-  const handleDelete = async (activityId) => {
-  try {
-    await deleteActivity(selectedSlug, activityId);
-
-    
-    setActivities(prev => prev.filter(a => a._id !== activityId));
-  } catch (err) {
-    console.error('Failed to delete activity:', err);
-    alert('Sorry, something went wrong.');
-  }
-};
-
-
-  
+  // Load country meta (name/intro/flag) for header
   useEffect(() => {
-    if (urlSlug !== selectedSlug) {
-      const exists = COUNTRIES.some(c => c.slug === urlSlug);
-      if (exists) setSelectedSlug(urlSlug);
-      else navigate('/samoa/things-to-do', { replace: true });
+    let isMounted = true;
+    async function loadCountry() {
+      try {
+        const res = await getCountry(slug);
+        // backend returns { country }
+        if (isMounted) setCountry(res.data.country || res.data);
+      } catch (e) {
+        console.error(e);
+        if (isMounted) setCountry(null);
+      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [urlSlug]);
+    loadCountry();
+    return () => {
+      isMounted = false;
+    };
+  }, [slug]);
 
-   useEffect(() => {
-    setLoading(true);                              
-    getCountry(selectedSlug)                        
-      .then(res => {
-        const acts = res.data.exploration?.activities || [];
-        setActivities(acts);
-      })
-      .catch(err => {
-        console.error(err);
-        setActivities([]);
-      })
-      .finally(() => setLoading(false));         
-  }, [selectedSlug]);   
+  // Load activities for this country
+  useEffect(() => {
+    let isMounted = true;
+    async function loadActivities() {
+      setLoading(true);
+      try {
+        const res = await listActivities(slug);
+        // backend returns { activities }
+        if (isMounted) setActivities(res.data.activities || []);
+      } catch (e) {
+        console.error(e);
+        if (isMounted) setActivities([]);
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    }
+    loadActivities();
+    return () => {
+      isMounted = false;
+    };
+  }, [slug]);
 
-  const handleSelect = slug => navigate(`/${slug}/things-to-do`);
-
-  const activeCountry = COUNTRIES.find(c => c.slug === selectedSlug);
+  // Admin: delete an activity (new endpoint uses id only)
+  const handleDelete = async (activityId) => {
+    try {
+      await deleteActivity(activityId);
+      setActivities((prev) => prev.filter((a) => a._id !== activityId));
+    } catch (err) {
+      console.error("Failed to delete activity:", err);
+      alert("Sorry, something went wrong.");
+    }
+  };
 
   return (
     <div className="page-layout">
-      <FlagSidebar
-        countries={COUNTRIES}
-        selectedCountry={selectedSlug}
-        onSelect={handleSelect}
-      />
+      {/* Country sidebar removed for MVP; layout classes retained */}
 
-   <div className="main-content">
-  {loading ? (
-    <p>Loading activities…</p>
-  ) : (
-    <>
-      
-      <div className="country-header">
-        <h1>{activeCountry.name}</h1>
-        <p>{activeCountry.description}</p>
+      <div className="main-content">
+        {loading ? (
+          <p>Loading activities…</p>
+        ) : (
+          <>
+            <div className="country-header">
+              <h1>{country?.countryName || slug}</h1>
+              <p>{country?.intro || "Explore the best things to do."}</p>
 
-        
               {isAdmin && (
                 <div className="btn-row">
                   <button
                     className="admin-btn"
-                    onClick={() => navigate(`/admin/add-activity/${selectedSlug}`)}
+                    onClick={() =>
+                      navigate(`/admin/countries/${slug}/activities/new`)
+                    }
                   >
                     + Add
                   </button>
 
                   <button
                     className="admin-btn"
-                    onClick={() => setEditMode(!editMode)}
+                    onClick={() => setEditMode((v) => !v)}
                   >
-                    {editMode ? 'Done' : 'Delete'}
+                    {editMode ? "Done" : "Delete"}
                   </button>
                 </div>
               )}
             </div>
 
-      
-      <CountryActivities
-        activities={activities}
-        editMode={editMode}      
-        onDelete={handleDelete}   
-      />
-    </>
-  )}
-</div>
-
+            <CountryActivities
+              activities={activities}
+              editMode={editMode}
+              onDelete={handleDelete}
+            />
+          </>
+        )}
+      </div>
     </div>
   );
 }

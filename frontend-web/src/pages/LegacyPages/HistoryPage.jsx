@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import FlagSidebar from '../components/FlagSidebar/FlagSidebar';
+import FlagSidebar from '../../components/FlagSidebar/FlagSidebar';
 import './HistoryPage.css';
 
 import samoaFlag  from '../assets/flags/sa.png';

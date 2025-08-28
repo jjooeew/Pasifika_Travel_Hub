@@ -1,22 +1,15 @@
-const express = require('express')
-const router = express.Router({ mergeParams: true });
-const { requireAdmin } = require('../middleware/auth');
-
-
+const express = require("express");
 const {
-  getActivities,  // GET
-  addActivity,     // POST
-  deleteActivity,  // DELETE
-} = require('../controllers/activityController');
+  listByCountry,
+  addActivity,
+  deleteActivity,
+} = require("../controllers/activityController");
+const { requireAdmin } = require("../middleware/auth");
 
+const r = express.Router();
 
-// PUBLIC: list activities for a country
-router.get('/', getActivities);
+r.get("/countries/:slug/activities", listByCountry);
+r.post("/countries/:slug/activities", requireAdmin, addActivity);
+r.delete("/activities/:id", requireAdmin, deleteActivity);
 
-// ADMIN: create an activity on a country
-router.post('/', requireAdmin, addActivity);
-
-// ADMIN: delete an activity by id for a country
-router.delete('/:activityId', requireAdmin, deleteActivity);
-
-module.exports = router;
+module.exports = r;

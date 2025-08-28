@@ -1,6 +1,6 @@
 
-import HeroCarousel from '../components/HeroCarousel/HeroCarousel';
-import SectionCard  from '../components/SectionCard/SectionCard';  
+import HeroCarousel from '../../components/HeroCarousel/HeroCarousel';
+import SectionCard  from '../../components/SectionCard/SectionCard';  
 
 import hero1 from '../assets/images/TongaCarousel1.jpg';
 import hero2 from '../assets/images/TongaCarousel2.jpg';

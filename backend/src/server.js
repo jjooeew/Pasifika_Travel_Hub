@@ -7,9 +7,12 @@ const errorHandler = require('./middleware/errorHandler');
 
 const mongoose = require("mongoose");
 
+const countryRoutes = require("./routes/countryRoutes");
+const activityRoutes = require("./routes/activityRoutes")
+
 const userRoutes = require("./routes/userRoutes");
 const postRoutes = require("./routes/postRoutes");
-const countryRoutes = require("./routes/countryRoutes");
+
 
 // express app
 const app = express();
@@ -20,9 +23,14 @@ app.use(express.json());
 
 app.use(attachUserIfPresent);
 
+app.use("/api", countryRoutes);
+app.use("/api", activityRoutes);
+
+
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
-app.use("/api/countries", countryRoutes);
+
+
 app.use(errorHandler);
 
 
