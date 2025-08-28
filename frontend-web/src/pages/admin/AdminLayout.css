@@ -1,0 +1,18 @@
+.admin-wrap {
+    display: flex;
+}
+
+.admin-aside {
+    padding: 6em 2em 0 2em;
+    width: fit-content;
+    height: 100vh;
+    background-color: beige;
+    display: flex;
+    align-items: flex-start;
+}
+
+.stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}

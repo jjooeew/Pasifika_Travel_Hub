@@ -1,23 +1,16 @@
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState } from "react";
+import { addActivity } from "../services/api";
 import "./AddCountry.css";      
 
 export default function AddActivity() {
-
   const { slug } = useParams();   
   const [formData, setFormData] = useState({
-    
-    slug: "",      
     title: "",
     description: "",
     imageUrl: "",
-    liked: false
+    liked: false,
   });
-
-   useEffect(() => {
-    setFormData(prev => ({ ...prev, slug }));
-  }, [slug]);
 
   const handleChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -27,14 +20,9 @@ export default function AddActivity() {
     e.preventDefault();
 
     try {
-      const { slug, ...activity } = formData;
-
-      const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/countries/slug/${slug}/activities`,
-        activity
-      );
-
+      const res = await addActivity(slug, formData)
       console.log("Activity added:", res.data);
+
       alert("Activity added successfully!");
     } catch (err) {
       console.error("Error adding activity:", err.response?.data || err.message);
@@ -46,13 +34,6 @@ export default function AddActivity() {
   return (
     <div className="pageWrapper">
       <form className="formContainer" onSubmit={handleSubmit}>
-        <input
-          name="slug"
-          value={formData.slug}
-          onChange={handleChange}
-          placeholder="Country"
-          required
-        />
         <input
           name="title"
           value={formData.title}

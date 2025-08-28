@@ -14,7 +14,6 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import axios from "axios";
 
 import "./PostFeed.css";
 import { api } from "../../services/api";

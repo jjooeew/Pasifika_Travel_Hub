@@ -7,7 +7,6 @@ export const api = axios.create({
 });
 
 // Add firebase ID token if logged in
-
 api.interceptors.request.use(async (config) => {
   try {
     const user = getAuth().currentUser;
@@ -27,7 +26,7 @@ export const getCountries = () =>
 export const getCountry = (slug) => 
   api.get(`/api/countries/${slug}`);
 export const createCountry = (payload) => 
-  api.post(`/countries`, payload);
+  api.post(`/api/countries`, payload);
 export const updateCountry = (slug, payload) =>
   api.put(`/api/countries/${slug}`, payload);
 export const deleteCountry = (slug) => 

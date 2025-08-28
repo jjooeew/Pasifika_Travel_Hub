@@ -1,6 +1,6 @@
-// src/components/NavBar.jsx   (adjust path to match your tree)
+// src/components/NavBar.jsx  
 import { Link } from "react-router-dom";
-import { useState, useContext } from "react";
+import { useRef, useEffect, useState, useContext } from "react";
 
 import logo from "../../assets/logo/logo.png";
 import placeholder from "../../assets/images/avatar-placeholder.png";  
@@ -11,6 +11,7 @@ import "./NavBar.css";
 
 export default function NavBar() {
   const [dropdown, setDropdown] = useState(false);
+  const dropdownRef = useRef(null)
   const { currentUser, isAdmin, logout } = useAuth();
   const { user } = useContext(UserContext);                      // { avatarUrl, … }
 
@@ -24,6 +25,22 @@ export default function NavBar() {
       alert("Logout error: " + err.message);
     }
   };
+
+  useEffect (() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdown(false)
+      }
+    }
+    if (dropdown) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+    
+  }, [dropdown]);
 
   return (
     <nav className="navbar">
@@ -56,16 +73,18 @@ export default function NavBar() {
         </button>
 
         {dropdown && (
-          <div className="dropdownMenu">
+          <div className="dropdownMenu" ref={dropdownRef}>
             {!currentUser ? (
               <>
-                <Link to="/login"    onClick={() => setDropdown(false)}>Sign In</Link>
+                <Link 
+                  to="/login"    
+                  onClick={() => setDropdown(false)}>Sign In</Link>
                 <Link to="/register" onClick={() => setDropdown(false)}>Sign Up</Link>
               </>
             ) : (
               <>
                 <Link to="/profile" onClick={() => setDropdown(false)}>Profile</Link>
-                {isAdmin && <Link to="/admin/add-country" onClick={() => setDropdown(false)}>Add Country</Link>}
+                {isAdmin && <Link to="/admin/admin-dashboard" onClick={() => setDropdown(false)}>Admin Dashboard</Link>}
                 <button
                   onClick={() => {
                     handleLogout();

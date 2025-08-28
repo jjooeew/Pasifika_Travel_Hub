@@ -63,7 +63,7 @@ exports.updateCountryBySlug = async (req, res, next) => {
       "exploration"
     ];
     const updates = {};
-    for (const k of alllowed) if (k in req.body) updates[k] = req.body[k]
+    for (const k of allowed) if (k in req.body) updates[k] = req.body[k]
   
     // Authomatically update slug if countryName changes
     if (typeof updates.countryName === "string" && updates.countryName.trim()) {
@@ -86,7 +86,7 @@ exports.updateCountryBySlug = async (req, res, next) => {
 }
 
 
-// DELETE /api/countries/:id
+// DELETE /api/countries/:slug
 exports.deleteCountryBySlug = async (req, res, next) => {
   try {
     const slug = normalizeSlug(req.params.slug);

@@ -43,9 +43,10 @@
   justify-content: space-evenly;
   font-size: 1.2rem;
   background-color: #0B5968;
-  height: 100px;
+  height: 180px;
   width: 120px;
   z-index: 1000;
+  top: 80px;
 }
 
 .dropdownMenu a {

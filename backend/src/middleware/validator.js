@@ -1,4 +1,4 @@
-import { body, validationResult } from 'express-validator';
+const { body, validationResult } = require('express-validator');
 
 
 const schemas = {
@@ -19,7 +19,7 @@ const schemas = {
 };
 
 
-export const validate = (schemaName) => [
+const validate = (schemaName) => [
   ...schemas[schemaName],                    
   (req, res, next) => {                     
     const errors = validationResult(req);
@@ -29,3 +29,5 @@ export const validate = (schemaName) => [
     next();                                  
   },
 ];
+
+module.exports = {validate};
