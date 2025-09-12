@@ -6,6 +6,7 @@ const {
   addCountry,
   getAllCountries,
   getCountryBySlug,
+  getCountryBySlugAdmin,
   updateCountryBySlug,
   deleteCountryBySlug,
 } = require('../controllers/countryController');
@@ -17,7 +18,8 @@ const activityRoutes = require('./activityRoutes');
 router.get('/countries', getAllCountries);
 router.post('/countries', requireAdmin, addCountry); 
 
-router.get('/countries/:slug', getCountryBySlug);   
+router.get('/countries/:slug', getCountryBySlug);
+router.get('/countries/:slug', requireAdmin, getCountryBySlugAdmin)   
 router.put('/countries/:slug', requireAdmin, updateCountryBySlug);
 router.delete('/countries/:slug', requireAdmin, deleteCountryBySlug);
 

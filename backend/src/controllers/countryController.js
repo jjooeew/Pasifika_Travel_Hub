@@ -27,6 +27,19 @@ exports.getCountryBySlug = async (req, res, next) => {
   }
 };
 
+
+// GET /api/admin/countries/slug
+exports.getCountryBySlugAdmin = async (req, res, next) => {
+  try {
+    const slug = normalizeSlug(req.params.slug);
+    const country = await Country.findOne({ slug }).lean();
+    if (!country) return res.status(404).json({ message: "Country not found" });
+    return res.json({ country });
+  } catch (err) {
+    next(err);
+  }
+};
+
 // POST /api/countries
 exports.addCountry = async (req, res, next) => {
   try {

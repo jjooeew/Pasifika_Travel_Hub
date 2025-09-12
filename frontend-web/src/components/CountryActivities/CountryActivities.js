@@ -26,7 +26,7 @@ export default function CountryActivities({
     <div className="cards-container">
       {activities.map((a, i) => (
         <div className="card" key={a._id || i}>
-          {/* delete icon (only in edit mode) */}
+          {/* delete icon (only in edit mode)
           {editMode && (
             <button
               className="delete-icon"
@@ -35,7 +35,7 @@ export default function CountryActivities({
             >
               ✕
             </button>
-          )}
+          )} */}
 
           {/* image */}
           {a.imageUrl && (
@@ -47,7 +47,7 @@ export default function CountryActivities({
           <p className="card-text">{a.description}</p>
 
           {/* heart */}
-          {!editMode && (
+          {/* {!editMode && (
             <div
               className="favorite-icon"
               onClick={() => toggleFavorite(i)}
@@ -56,7 +56,7 @@ export default function CountryActivities({
             >
               {favorites[i] ? "❤️" : "♡"}
             </div>
-          )}
+          )} */}
         </div>
       ))}
     </div>

@@ -8,7 +8,6 @@ const ActivitySchema = new mongoose.Schema(
     title: { type: String, required: true },
     description: { type: String, default: "" },
     imageUrl: { type: String, default: "" },
-    locationLabel: { type: String, default: "" },
     tags: [{ type: String }],
 
     likeCount: { type: Number, default: 0 },

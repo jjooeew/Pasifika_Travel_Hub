@@ -83,7 +83,7 @@ export default function ThingsToDoPage() {
               <h1>{country?.countryName || slug}</h1>
               <p>{country?.intro || "Explore the best things to do."}</p>
 
-              {isAdmin && (
+              {/* {isAdmin && (
                 <div className="btn-row">
                   <button
                     className="admin-btn"
@@ -101,7 +101,7 @@ export default function ThingsToDoPage() {
                     {editMode ? "Done" : "Delete"}
                   </button>
                 </div>
-              )}
+              )} */}
             </div>
 
             <CountryActivities

@@ -25,6 +25,8 @@ export const getCountries = () =>
   api.get("/api/countries");
 export const getCountry = (slug) => 
   api.get(`/api/countries/${slug}`);
+export const getCountryAdmin = (slug) =>
+  api.get(`/api/admin/countries/${slug}`)
 export const createCountry = (payload) => 
   api.post(`/api/countries`, payload);
 export const updateCountry = (slug, payload) =>
@@ -36,8 +38,17 @@ export const createActivity = (slug, payload) =>
   api.post(`/api/countries/${slug}/activities`, payload);
 export const listActivities = (slug) =>
   api.get(`/api/countries/${slug}/activities`);
+export const listAdminActivities = (slug) =>
+  api.get(`/api/admin/countries/${slug}/activities`)
 export const deleteActivity = (activityId) =>
   api.delete(`/api/activities/${activityId}`);
+export const updateActivity = (id, payload) =>
+  api.put(`/api/activities/${id}`, payload);
+export const getActivity = (id) =>
+  api.get(`/api/activities/${id}`);
+export const getPublicActivity = (id) =>
+  api.get(`/api/public/activities/${id}`);
+
 
 // export const getActivities = (slug) =>
 //   api.get(`/api/countries/${slug}/activities`);

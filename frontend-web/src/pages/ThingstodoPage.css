@@ -3,22 +3,23 @@
 }
 
 .country-header {        
-  margin: 0 auto 1.5rem;   
-  text-align: center;     
+  /* margin: 0 auto 1.5rem;    */
+  width: 75%;
+  text-align: center; 
+  justify-self: center;
 }
 
 .country-header h1 {
-  display: inline-block;       
   font-family: 'Great Vibes', cursive;
-  font-size: 2.6rem;
-  line-height: 5;
-  padding-right: 25%;
-  margin: 0 0.5rem 0.4rem;      
+  font-size: 5rem;
   color: #29445e;
+  line-height: 0.5em;
 }
 
+
+
 .country-header p {
-  margin: 0 0 1rem;
+  /* margin: 0 0 1rem; */
   font-size: 1rem;
   color: #555;
 }

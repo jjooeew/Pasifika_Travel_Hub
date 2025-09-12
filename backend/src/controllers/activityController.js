@@ -14,6 +14,45 @@ exports.listByCountry = async (req, res, next) => {
   }
 };
 
+// GET /api/admin/countries/:slug/activities  (admin only)
+exports.listByCountryAdmin = async (req, res, next) => {
+  try {
+    const { slug } = req.params;
+    const activities = await Activity.find({ countrySlug: slug })
+      .sort({ updatedAt: -1 })
+      .select("title imageUrl locationLabel tags isPublished updatedAt");
+    res.json({ activities });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// GET /api/activities/:id
+exports.getActivity = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const activity = await Activity.findById( id ).lean();
+    if (!activity) return res.status(404).json({ message: "Activity not found" });
+    return res.json( activity );
+  } catch (err) {
+    next(err);
+  }
+}
+
+// GET /api/public/activities/:id
+exports.getPublicActivity = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const activity = await Activity.findById({ _id: id, isPublished: true }).lean();
+    if (!activity) return res.status(404).json({ message: "Activity not found" });
+    return res.json( activity );
+  } catch (err) {
+    next(err);
+  }
+}
+
+
+
 // POST /api/countries/:slug/activities
 exports.addActivity = async (req, res, next) => {
   try {
@@ -22,7 +61,6 @@ exports.addActivity = async (req, res, next) => {
       title,
       description = "",
       imageUrl = "",
-      locationLabel = "",
       tags,
     } = req.body;
 
@@ -48,7 +86,6 @@ exports.addActivity = async (req, res, next) => {
       title: title.trim(),
       description,
       imageUrl,
-      locationLabel,
       tags: normalizedTags,
       isPublished: true,
     });
@@ -66,5 +103,22 @@ exports.deleteActivity = async (req, res, next) => {
     res.status(204).end();
   } catch (err) {
     next(err);
+  }
+};
+
+// PUT /api/activities/:id
+exports.updateActivity = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const payload = req.body;
+    const updated = await Activity.findByIdAndUpdate(
+      id,
+      { ...payload },
+      { new: true, runValidators: true }
+    );
+    if (!updated) return res.status(404).json({ message: "Activity not found" });
+    res.json(updated);
+  } catch (e) {
+    next(e);
   }
 };

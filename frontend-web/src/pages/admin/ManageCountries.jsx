@@ -95,6 +95,13 @@ export default function ManageCountries() {
                     + Activity
                   </button>
                   <button
+                    onClick={() =>
+                      navigate(`/admin/countries/${c.slug}/activities`)
+                    }
+                  >
+                    Manage Activities
+                  </button>
+                  <button
                     className="btn btn--ghost"
                     onClick={() =>
                       navigate(`/countries/${c.slug}/things-to-do`)

@@ -12,13 +12,15 @@ import CountryPage from "./pages/CountryPage"
 import AdminRoute from "./routes/AdminRoute";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import ManageCountries from "./pages/admin/ManageCountries";
-import EditCountry from "./pages/admin/EditCountry";
+import EditCountry from "./pages/admin/AdminEditCountry";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminAddActivity from "./pages/admin/AddActivity";
-
+import AdminEditActivity from "./pages/admin/AdminEditActivity";
+import ManageActivities from "./pages/admin/AdminManageActivities";
 
 // Need to put in as admin route?
 import AddCountry from "./pages/AddCountry";
+import ActivityPage from "./pages/ActivityPage";
 
 
 
@@ -33,6 +35,7 @@ function App() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/countries/:slug/things-to-do" element={<ThingstodoPage />} />
           <Route path="/countries/:slug" element={<CountryPage />} />
+          <Route path="/activities/:id" element={<ActivityPage />} />
           <Route
             path="/admin/admin-dashboard"
             element={
@@ -51,19 +54,11 @@ function App() {
           >
             <Route
               path="add-country"
-              element={
-                <AdminRoute>
-                  <AddCountry />
-                </AdminRoute>
-              }
+              element={<AddCountry />}
             />
             <Route
               path="countries"
-              element={
-                <AdminRoute>
-                  <ManageCountries />
-                </AdminRoute>
-              }
+              element={<ManageCountries />}
             />
             <Route
               path="countries/:slug/edit"
@@ -71,11 +66,15 @@ function App() {
             />
             <Route
               path="countries/:slug/activities/new"
-              element={
-                <AdminRoute>
-                  <AdminAddActivity />
-                </AdminRoute>
-              }
+              element={<AdminAddActivity />}
+            />
+            <Route
+              path="countries/:slug/activities"
+              element={<ManageActivities />}
+            />
+            <Route 
+              path="activities/:id/edit" 
+              element={<AdminEditActivity />} 
             />
           </Route>
           <Route path="/login" element={<Login />} />
