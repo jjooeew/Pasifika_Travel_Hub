@@ -46,17 +46,15 @@ export default function NavBar() {
     <nav className="navbar">
       
       <div className="navbar__logo">
-        <img src={logo} alt="Pasifika Hub logo" />
+        <Link to="/">
+          <img src={logo} alt="Pasifika Hub logo" />
+        </Link>
       </div>
 
     
-      <ul className="navbar__links">
+      {/* <ul className="navbar__links">
         <li><Link to="/">Home</Link></li>
-        <li><Link to="/things-to-do">Things to do</Link></li>
-        <li><Link to="/language">Language</Link></li>
-        <li><Link to="/history">History</Link></li>
-        <li><Link to="/kids">Kids</Link></li>
-      </ul>
+      </ul> */}
 
      
       <div className="navbar__profile">

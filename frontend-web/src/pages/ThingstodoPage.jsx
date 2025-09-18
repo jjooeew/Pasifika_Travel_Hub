@@ -16,9 +16,7 @@ export default function ThingsToDoPage() {
   const [country, setCountry] = useState(null);
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [editMode, setEditMode] = useState(false);
 
-  // Load country meta (name/intro/flag) for header
   useEffect(() => {
     let isMounted = true;
     async function loadCountry() {
@@ -82,31 +80,10 @@ export default function ThingsToDoPage() {
             <div className="country-header">
               <h1>{country?.countryName || slug}</h1>
               <p>{country?.intro || "Explore the best things to do."}</p>
-
-              {/* {isAdmin && (
-                <div className="btn-row">
-                  <button
-                    className="admin-btn"
-                    onClick={() =>
-                      navigate(`/admin/countries/${slug}/activities/new`)
-                    }
-                  >
-                    + Add
-                  </button>
-
-                  <button
-                    className="admin-btn"
-                    onClick={() => setEditMode((v) => !v)}
-                  >
-                    {editMode ? "Done" : "Delete"}
-                  </button>
-                </div>
-              )} */}
             </div>
 
             <CountryActivities
               activities={activities}
-              editMode={editMode}
               onDelete={handleDelete}
             />
           </>

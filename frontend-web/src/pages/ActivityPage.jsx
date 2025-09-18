@@ -1,31 +1,29 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { getActivity } from "../services/api";
+import { useParams, Link } from "react-router-dom";
+import { getPublicActivity } from "../services/api";
 
 export default function ActivityPage() {
   const { id } = useParams(); 
   const [activity, setActivity] = useState("")
-         
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const load = async () => {
-    setLoading(true);
-    setError("");
-    try {
-        const res = await getActivity(id)
-        setActivity(res.data)
-    } catch (e) {
-        console.error(e)
-        setError(e?.response?.data?.message || e.message); 
-    } finally {
-        setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    load();
+    let mounted = true;
+    setLoading(true);
+    getPublicActivity(id)
+      .then(({ data }) => {
+        console.log("[ActivityPage] response: ", data);
+        if (!mounted) return;
+        setActivity(data || null);
+        setError("")
+      })
+      .catch((e) => {
+        setError(e?.response?.data?.error || "Not found");
+        setActivity(null);
+      })
+      .finally(() => mounted && setLoading(false));
+    return () => (mounted = false);
   }, [id]);
 
   if (loading) return <div className="p-6">Loading…</div>;
@@ -34,7 +32,8 @@ export default function ActivityPage() {
 
   return (
     <div className="container">
-        <h1>${activity.title}</h1>
+        <h1>{activity.title}</h1>
+        <img src={activity.imageUrl}/>
     </div>
   );
 }

@@ -23,6 +23,8 @@ api.interceptors.request.use(async (config) => {
 
 export const getCountries = () => 
   api.get("/api/countries");
+// export const listCountriesPublic = () =>
+//   api.get("/api/public/countries")
 export const getCountry = (slug) => 
   api.get(`/api/countries/${slug}`);
 export const getCountryAdmin = (slug) =>

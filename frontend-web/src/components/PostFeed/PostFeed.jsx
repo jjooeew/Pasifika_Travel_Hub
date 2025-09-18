@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../context/AuthContext";
 import { db, storage } from "../../firebase";
 import {
@@ -16,7 +16,7 @@ import {
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 import "./PostFeed.css";
-import { api } from "../../services/api";
+import { getCountries } from "../../services/api"
 
 function PostFeed() {
   const { currentUser } = useAuth();
@@ -95,8 +95,12 @@ function PostFeed() {
     setPostDropdownId((prev) => (prev === postId ? null : postId));
   };
 
-  const fetchPosts = async () => {
+  const fetchPosts = useCallback(async () => {
     try {
+      if (!currentUser?.uid) {
+        setPosts([]);
+        return;
+      }
       const q = query(
         collection(db, "posts"),
         where("userId", "==", currentUser.uid),
@@ -111,13 +115,13 @@ function PostFeed() {
     } catch (err) {
       console.error("Error fetching posts:", err);
     }
-  };
+  }, [currentUser]);
 
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-        const res = await api.get("/countries");
-        setCountryOptions(res.data);
+        const { data } = await getCountries();
+        setCountryOptions(Array.isArray(data) ? data: (data.coutries || data.items || []));
       } catch (err) {
         console.error("Error fetching countries:", err);
       }
@@ -127,8 +131,8 @@ function PostFeed() {
   }, []);
 
   useEffect(() => {
-    if (currentUser) fetchPosts();
-  }, [currentUser]);
+    fetchPosts();
+  }, [fetchPosts]);
 
   return (
     <div className="post-feed-container">
